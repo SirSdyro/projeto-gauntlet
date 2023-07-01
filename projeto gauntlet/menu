@@ -1,0 +1,98 @@
+.include "MACROSv21.s"
+
+.data
+mapa:
+.include "mapa1_teste.data"
+.include "hitbox_mapateste2.data"
+lamar:
+.include "lamar_cima.data"
+.include "lamar_baixo.data"
+.include "lamar_direita.data"
+.include "lamar_esquerda.data"
+
+CHAR_POS:	.half 8,8			# x, y
+.text
+	la a0, mapa1_teste
+	li a1,0				# x = 0
+	li a2,0				# y = 0
+	li a3,0				# frame = 0
+	call print			# imprime o sprite
+	la a0, hitbox_mapateste2
+	li a1,0				# x = 0
+	li a2,0				# y = 0
+	li a3,1			# frame = 0
+	call print			# imprime o sprite
+	
+li a7,30
+ecall
+mv t0,a0	
+loop:
+li a7,101
+mv a0,t0
+li a1,72
+li a2,120
+li a3,0x38
+ecall
+li a7,30
+ecall
+mv t0,a0
+j loop
+
+#li t0,0xFF100000
+#li t2,216
+#li t3,8
+#li t4,320
+#mul t4,t3,t4
+#add t0,t0,t4
+#add t0,t0,t2
+#lb t1,0(t0)
+#j sair
+print:
+	li t0,0xFF0			# carrega 0xFF0 em t0
+	add t0,t0,a3			# adiciona o frame ao FF0 (se o frame for 1 vira FF1, se for 0 fica FF0)
+	slli t0,t0,20			# shift de 20 bits pra esquerda (0xFF0 vira 0xFF000000, 0xFF1 vira 0xFF100000)
+	
+	add t0,t0,a1			# adiciona x ao t0
+	
+	li t1,320			# t1 = 320
+	mul t1,t1,a2			# t1 = 320 * y
+	add t0,t0,t1			# adiciona t1 ao t0
+	
+	addi t1,a0,8			# t1 = a0 + 8
+	
+	mv t2,zero			# zera t2
+	mv t3,zero			# zera t3
+	
+	lw t4,0(a0)			# carrega a largura em t4
+	lw t5,4(a0)			# carrega a altura em t5
+	
+	
+PRINT_LINHA:
+	lw t6,0(t1)			# carrega em t6 uma word (4 pixeis) da imagem
+	sw t6,0(t0)			# imprime no bitmap a word (4 pixeis) da imagem
+	
+	addi t0,t0,4			# incrementa endereco do bitmap
+	addi t1,t1,4			# incrementa endereco da imagem
+	
+	addi t3,t3,4			# incrementa contador de coluna
+	blt t3,t4,PRINT_LINHA		# se contador da coluna < largura, continue imprimindo
+
+	addi t0,t0,320			# t0 += 320
+	sub t0,t0,t4			# t0 -= largura da imagem
+	# ^ isso serve pra "pular" de linha no bitmap display
+	
+	mv t3,zero			# zera t3 (contador de coluna)
+	addi t2,t2,1			# incrementa contador de linha
+	bgt t5,t2,PRINT_LINHA		# se altura > contador de linha, continue imprimindo
+	
+	ret				# retorna
+
+sair:
+	li a7,10
+	ecall
+
+
+
+
+
+.include "SYSTEMv21.s"
