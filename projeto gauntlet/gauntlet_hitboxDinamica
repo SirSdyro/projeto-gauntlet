@@ -3,6 +3,7 @@
 .data
 menu:
 .include "menu_gauntlet.data"
+.include "menu_gauntlet_2.data"
 mapa_e_hitbox:
 .include "mapa1_teste.data"
 .include "hitbox_mapateste2.data"
@@ -21,7 +22,8 @@ lamar:
 CHAR_POS:	.half 8,8			# x, y
 OLD_CHAR_POS:	.half 8,8			# x, y
 SAIDA_POS: 	.half 8,216			# x, y
-
+TEMPO: .word 100
+CHAR_SELECT:	.word 0
 .text
 #OBSERVAÇÕES:
 #*No menu, a opção de ver as instruções ainda não está implementada, nada acontecerá se você pressionar 2
@@ -29,6 +31,7 @@ SAIDA_POS: 	.half 8,216			# x, y
 #ou de qual pixel você quer checar
 #*Cuidado com as coordenadas que utilizará, se não forem múltiplas de 4, muito provavelmente dará erro
 #*Na seleção de mapas o mapa2 está igual o primeiro apenas como placeholder, a implementação de um mapa diferente é fácil
+#*O tempo só funciona no FPGrars, já que a execução detro do rars normal é lento para dedéu e lá é extremamente rápida
 
 ##########
 ##########
@@ -41,7 +44,8 @@ MENU:
 	
 	call KEY1
 	
-KEY1: 	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
+KEY1: 	
+	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
 LOOP: 	lw t0,0(t1)			# Le bit de Controle Teclado
    	andi t0,t0,0x0001		# mascara o bit menos significativo
    	beq t0,zero,LOOP		# não tem tecla pressionada então volta ao loop
@@ -49,12 +53,64 @@ LOOP: 	lw t0,0(t1)			# Le bit de Controle Teclado
   	sw t2,12(t1)  			# escreve a tecla pressionada no display
   	
   	li t0,'1'
-  	beq t2,t0,SETUP
+  	beq t2,t0,SELECT
   	
   	li t0,'3'
   	beq t2,t0,sair
   	
-  	ret				# retorna 
+  	ret				# retorna
+##########
+########## 	
+SELECT:
+	la a0, menu_gauntlet_2		# Carrega o endereço do menu de seleção de personagem para printar apenas no frame 0
+	li a1,0				# x = 0
+	li a2,0				# y = 0
+	li a3,0				# frame = 0
+	call print			# imprime o sprite
+	
+	call KEY1_2
+KEY1_2: 	
+	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
+LOOP_2: lw t0,0(t1)			# Le bit de Controle Teclado
+   	andi t0,t0,0x0001		# mascara o bit menos significativo
+   	beq t0,zero,LOOP_2		# não tem tecla pressionada então volta ao loop
+   	lw t2,4(t1)			# le o valor da tecla
+  	sw t2,12(t1)  			# escreve a tecla pressionada no display
+  	
+  	li t0,'1'
+  	beq t2,t0,CHAR_1
+ 
+  	li t0,'2'
+  	beq t2,t0,CHAR_2
+  	 	
+  	li t0,'3'
+  	beq t2,t0,CHAR_3
+  	
+  	li t0,'4'
+  	beq t2,t0,CHAR_4
+  	  	
+ 	ret				# retorna
+# Os processos seguintes alteram o valor CHAR_SELECT para definir qual personagem deve ter seus sprites printados 	  	 
+CHAR_1:
+	li t0,'1'
+	la t1,CHAR_SELECT
+	sw t0,0(t1)
+	j SETUP
+CHAR_2:
+	li t0,'2'
+	la t1,CHAR_SELECT
+	sw t0,0(t1)
+	j SETUP	
+CHAR_3:
+	li t0,'3'
+	la t1,CHAR_SELECT
+	sw t0,0(t1)
+	j SETUP	
+CHAR_4:
+	li t0,'4'
+	la t1,CHAR_SELECT
+	sw t0,0(t1)
+	j SETUP	
 ##########
 ##########	
 SETUP:	
@@ -65,7 +121,7 @@ SETUP:
 
 map1:	la a0,mapa1_teste
 	j setup1
-map2:	la a0,mapa1_teste
+map2:	la a0,hitbox_mapateste2
 	j setup1
 #Printa o mapa selecionado no frame 0
 setup1:	li a1,0				# x = 0
@@ -88,9 +144,31 @@ setup2:	li a1,0				# x = 0
 	li a2,0				# y = 0	
 	li a3,1				# frame = 1
 	call print			# imprime o sprite
+	
+#selecionando a sprite
+	la t0,CHAR_SELECT
+	lw t1,0(t0)
+	
+  	li t0,'1'
+  	beq t1,t0,psngm_1
+ 
+  	li t0,'2'
+  	beq t1,t0,psngm_2
+  	 	
+  	li t0,'3'
+  	beq t1,t0,psngm_2
+  	
+  	li t0,'4'
+  	beq t1,t0,psngm_2	
+	
 
- 	la s3,lamar_baixo		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)
- 	
+psngm_1:
+ 	la s3,lamar_baixo		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
+	j setup3
+psngm_2:
+	la s3,lamar_direita
+	j setup3
+setup3:		
  	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
 	mv a0,s3			# carrega o endereco do sprite 'char' em a0
@@ -102,8 +180,26 @@ setup2:	li a1,0				# x = 0
 	li a3,1				# Seleciona o frame 1
 	call print			# imprime o sprite
 	
-	
  	li s11,0			# Define o valor inicial do registrador da chave
+ 	j GAME_LOOP
+##########
+##########
+# Quando o registrador s9 atinge o valor estabelecido no game loop,
+# é decrementado 1 do valor indicado pela label TEMPO, representando os segundos
+segundo:
+	la t0,TEMPO
+	lw t1,0(t0)
+	addi t1,t1,-1
+	sw t1,0(t0)
+	mv s9,zero
+	li a7,101
+	mv a0,t1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall
+	beq t1,zero,sair
+	j GAME_LOOP			
 ##########
 ##########
 CHECK_KEY:
@@ -122,6 +218,9 @@ CHECK_KEY:
 	la t0,OLD_CHAR_POS		# Carrega a posição antiga do personagem
 	sh t1,0(t0)			# Atualiza o x
 	sh t1,2(t0)			# Atualiza o y
+	la t0,TEMPO
+	li t1,100
+	sw t1,0(t0)
 	j SETUP
 CHAVE:
 	li s11,1			# Altera o valor do registrador da chave
@@ -147,7 +246,17 @@ CHAVE:
 GAME_LOOP:
 #Após as alterações feitas para acomodar a hitbox dinâmica, o game loop está vazio e , acredito eu, poderemos
 #usá-lo para fazer o tempo, inimigos e outros processos que devem ocorrer sem o input do jogador
-	
+
+contador:
+# Serve para definir quando passou aproximadamente 1 segundo
+# este valor de 20 milhões foi escolhido devido a como os comandos são processados no assembly
+# e ao fato que a execução no FPGrars é absurdamente rápida. Ele pode ser alterado para mudar
+# o quão rápido o tempo é decrementado. Muito provavelmente será alterado quando o resto do jogo
+# for programado
+	addi s9,s9,1
+	li t0,20000000
+	beq s9,t0,segundo
+					
 game_loop1:
 #Essa label ficará aqui por possíveis conveniências futuras, mas muito provavelmente pode ser apagada, então dane-se
 	call KEY2			# chama o procedimento de entrada do teclado
@@ -204,9 +313,33 @@ CHAR_UP:
 	beq t4,t5,CHECK_KEY
 	
 	addi t1,t1,-16			# decrementa 16 pixeis
-	sh t1,2(t0)
-	la s3,lamar_cima		# salva
+	sh t1,2(t0)			# salva
+
+#selecionando a sprite
+	la t0,CHAR_SELECT
+	lw t1,0(t0)
 	
+  	li t0,'1'
+  	beq t1,t0,psngm_1_up
+ 
+  	li t0,'2'
+  	beq t1,t0,psngm_2_up
+  	 	
+  	li t0,'3'
+  	beq t1,t0,psngm_2_up
+  	
+  	li t0,'4'
+  	beq t1,t0,psngm_2_up	
+	
+
+psngm_1_up:
+ 	la s3,lamar_cima		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
+	j up_1
+psngm_2_up:
+	la s3,lamar_direita
+	j up_1	
+	
+up_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
 	mv a0,s3			# carrega o endereco do sprite 'char' em a0
@@ -283,9 +416,33 @@ CHAR_DOWN:
 	la t0,CHAR_POS
 	lh t1,2(t0)			# carrega o y atual do personagem
 	addi t1,t1,16			# incrementa 16 pixeis
-	sh t1,2(t0)
-	la s3,lamar_baixo			# salva
+	sh t1,2(t0)			# salva
+
+#selecionando a sprite
+	la t0,CHAR_SELECT
+	lw t1,0(t0)
+	
+  	li t0,'1'
+  	beq t1,t0,psngm_1_down
+ 
+  	li t0,'2'
+  	beq t1,t0,psngm_2_down
+  	 	
+  	li t0,'3'
+  	beq t1,t0,psngm_2_down
+  	
+  	li t0,'4'
+  	beq t1,t0,psngm_2_down	
+	
+
+psngm_1_down:
+ 	la s3,lamar_baixo		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
+	j down_1
+psngm_2_down:
+	la s3,lamar_direita
+	j down_1	
 		
+down_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
 	mv a0,s3			# carrega o endereco do sprite 'char' em a0
@@ -361,9 +518,33 @@ CHAR_LEFT:
 	
 	lh t1,0(t0)			# carrega o x atual do personagem
 	addi t1,t1,-16			# decrementa 16 pixeis
-	sh t1,0(t0)
-	la s3,lamar_esquerda			# salva
+	sh t1,0(t0)			# salva
+	
+#selecionando a sprite
+	la t0,CHAR_SELECT
+	lw t1,0(t0)
+	
+  	li t0,'1'
+  	beq t1,t0,psngm_1_left
+ 
+  	li t0,'2'
+  	beq t1,t0,psngm_2_left
+  	 	
+  	li t0,'3'
+  	beq t1,t0,psngm_2_left
+  	
+  	li t0,'4'
+  	beq t1,t0,psngm_2_left	
+	
+
+psngm_1_left:
+ 	la s3,lamar_esquerda		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
+	j left_1
+psngm_2_left:
+	la s3,lamar_direita
+	j left_1	
 		
+left_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
 	mv a0,s3			# carrega o endereco do sprite 'char' em a0
@@ -440,8 +621,32 @@ CHAR_RIGHT:
 	lh t1,0(t0)			# carrega o x atual do personagem
 	addi t1,t1,16			# incrementa 16 pixeis
 	sh t1,0(t0)			# salva
-	la s3,lamar_direita			
+
+#selecionando a sprite
+	la t0,CHAR_SELECT
+	lw t1,0(t0)
+	
+  	li t0,'1'
+  	beq t1,t0,psngm_1_right
+ 
+  	li t0,'2'
+  	beq t1,t0,psngm_2_right
+  	 	
+  	li t0,'3'
+  	beq t1,t0,psngm_2_right
+  	
+  	li t0,'4'
+  	beq t1,t0,psngm_2_right	
+	
+
+psngm_1_right:
+ 	la s3,lamar_direita		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
+	j right_1
+psngm_2_right:
+	la s3,lamar_direita
+	j right_1			
 		
+right_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
 	mv a0,s3			# carrega o endereco do sprite 'char' em a0

@@ -23,30 +23,18 @@ CHAR_POS:	.half 8,8			# x, y
 	li a3,1			# frame = 0
 	call print			# imprime o sprite
 	
-li a7,30
-ecall
-mv t0,a0	
-loop:
-li a7,101
-mv a0,t0
-li a1,72
-li a2,120
-li a3,0x38
-ecall
-li a7,30
-ecall
-mv t0,a0
-j loop
 
-#li t0,0xFF100000
-#li t2,216
-#li t3,8
-#li t4,320
-#mul t4,t3,t4
-#add t0,t0,t4
-#add t0,t0,t2
-#lb t1,0(t0)
-#j sair
+
+li t0,0xFF100000
+li t2,0
+li t3,0
+li t4,320
+mul t4,t3,t4
+add t0,t0,t4
+add t0,t0,t2
+lb t1,0(t0)
+j sair
+
 print:
 	li t0,0xFF0			# carrega 0xFF0 em t0
 	add t0,t0,a3			# adiciona o frame ao FF0 (se o frame for 1 vira FF1, se for 0 fica FF0)
