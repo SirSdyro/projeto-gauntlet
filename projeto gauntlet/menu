@@ -9,10 +9,12 @@ lamar:
 .include "lamar_baixo.data"
 .include "lamar_direita.data"
 .include "lamar_esquerda.data"
+.include "tile_hitbox_char.data"
+.include "tile_hitbox_enemy.data"
 
 CHAR_POS:	.half 8,8			# x, y
 .text
-	la a0, mapa1_teste
+	la a0, tile_hitbox_enemy
 	li a1,0				# x = 0
 	li a2,0				# y = 0
 	li a3,0				# frame = 0
@@ -25,7 +27,7 @@ CHAR_POS:	.half 8,8			# x, y
 	
 
 
-li t0,0xFF100000
+li t0,0xFF000000
 li t2,0
 li t3,0
 li t4,320
