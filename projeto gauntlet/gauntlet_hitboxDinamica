@@ -22,6 +22,21 @@ Lamar:
 .include "lamar_baixo.data"
 .include "lamar_direita.data"
 .include "lamar_esquerda.data"
+Ada:
+.include "ada_cima.data"
+.include "ada_baixo.data"
+.include "ada_direita.data"
+.include "ada_esquerda.data"
+Babbage:
+.include "babbage_cima.data"
+.include "babbage_baixo.data"
+.include "babbage_direita.data"
+.include "babbage_esquerda.data"
+Turing:
+.include "turing_cima.data"
+.include "turing_baixo.data"
+.include "turing_direita.data"
+.include "turing_esquerda.data"
 ##########
 ##########
 #INIMIGOS#
@@ -29,16 +44,16 @@ CapacitorParasita:
 .include "capacitor_parasita.data"
 .include "descarga_capacitor.data"
 
+CHAR_SELECT:	.word 0				# define o personagem selecionado
 CHAR_POS:	.half 8,8			# x, y
 OLD_CHAR_POS:	.half 8,8			# x, y
 SAIDA_POS: 	.half 8,216			# x, y
-TEMPO: 		.byte 60
-TEMPO_ATK: 	.byte 1				# tempo até o ataque do inimigo
-CHAR_SELECT:	.word 0				# define o personagem selecionado
+TEMPO: 		.word 60
+TEMPO_ATK: 	.word 1				# tempo até o ataque do inimigo
 ENEMY_1_POS:    .half 216,216			# x, y
 ENEMY_1_OLD_POS:.half 216,216			# x, y
 ENEMY_1_ATK:	.half 0,0			# x, y
-ENEMY_1_SWITCH: .byte 1				# permite a existência do inimigo 1 (no caso o capacitor parasita)
+ENEMY_1_SWITCH: .word 0				# permite a existência do inimigo 1 (no caso o capacitor parasita)
 .text
 #OBSERVAÇÕES:
 #*No menu, a opção de ver as instruções ainda não está implementada, nada acontecerá se você pressionar 2
@@ -171,18 +186,24 @@ setup2:	li a1,0				# x = 0
   	beq t1,t0,psngm_2
   	 	
   	li t0,'3'
-  	beq t1,t0,psngm_2
+  	beq t1,t0,psngm_3
   	
   	li t0,'4'
-  	beq t1,t0,psngm_2	
+  	beq t1,t0,psngm_4	
 	
 
 psngm_1:
  	la s3,lamar_baixo		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
 	j setup3
 psngm_2:
-	la s3,lamar_direita
+	la s3,ada_direita
 	j setup3
+psngm_3:
+	la s3,babbage_baixo
+	j setup3
+psngm_4:
+	la s3,turing_baixo
+	j setup3		
 setup3:		
  	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
@@ -273,6 +294,9 @@ CHECK_KEY:
 	sh t1,2(t0)			# Atualiza o y
 	la t0,TEMPO
 	li t1,60
+	sw t1,0(t0)
+	la t0,CHAR_SELECT
+	lw t1,0(t0)
 	sw t1,0(t0)
 	j SETUP
 CHAVE:
@@ -466,18 +490,24 @@ CHAR_UP:
   	beq t1,t0,psngm_2_up
   	 	
   	li t0,'3'
-  	beq t1,t0,psngm_2_up
+  	beq t1,t0,psngm_3_up
   	
   	li t0,'4'
-  	beq t1,t0,psngm_2_up	
+  	beq t1,t0,psngm_4_up	
 	
 
 psngm_1_up:
  	la s3,lamar_cima		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
 	j up_1
 psngm_2_up:
-	la s3,lamar_direita
+	la s3,ada_cima
 	j up_1	
+psngm_3_up:
+	la s3,babbage_cima
+	j up_1	
+psngm_4_up:
+	la s3,turing_cima
+	j up_1			
 	
 up_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
@@ -571,18 +601,24 @@ CHAR_DOWN:
   	beq t1,t0,psngm_2_down
   	 	
   	li t0,'3'
-  	beq t1,t0,psngm_2_down
+  	beq t1,t0,psngm_3_down
   	
   	li t0,'4'
-  	beq t1,t0,psngm_2_down	
+  	beq t1,t0,psngm_4_down	
 	
 
 psngm_1_down:
  	la s3,lamar_baixo		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
 	j down_1
 psngm_2_down:
-	la s3,lamar_direita
-	j down_1	
+	la s3,ada_baixo
+	j down_1
+psngm_3_down:
+	la s3,babbage_baixo
+	j down_1
+psngm_4_down:
+	la s3,turing_baixo
+	j down_1				
 		
 down_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
@@ -675,18 +711,24 @@ CHAR_LEFT:
   	beq t1,t0,psngm_2_left
   	 	
   	li t0,'3'
-  	beq t1,t0,psngm_2_left
+  	beq t1,t0,psngm_3_left
   	
   	li t0,'4'
-  	beq t1,t0,psngm_2_left	
+  	beq t1,t0,psngm_4_left	
 	
 
 psngm_1_left:
  	la s3,lamar_esquerda		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
 	j left_1
 psngm_2_left:
-	la s3,lamar_direita
-	j left_1	
+	la s3,ada_esquerda
+	j left_1
+psngm_3_left:
+	la s3,babbage_esquerda
+	j left_1
+psngm_4_left:
+	la s3,turing_esquerda
+	j left_1				
 		
 left_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
@@ -779,19 +821,25 @@ CHAR_RIGHT:
   	beq t1,t0,psngm_2_right
   	 	
   	li t0,'3'
-  	beq t1,t0,psngm_2_right
+  	beq t1,t0,psngm_3_right
   	
   	li t0,'4'
-  	beq t1,t0,psngm_2_right	
+  	beq t1,t0,psngm_4_right	
 	
 
 psngm_1_right:
  	la s3,lamar_direita		# Primeiro sprite do personagem(futuras alterações serão feitas para permitir a seleção de personagem com base no S9)	
 	j right_1
 psngm_2_right:
-	la s3,lamar_direita
+	la s3,ada_direita
+	j right_1	
+psngm_3_right:
+	la s3,babbage_direita
 	j right_1			
-		
+psngm_4_right:
+	la s3,turing_direita
+	j right_1
+			
 right_1:	
 	la t0,CHAR_POS			# carrega em t0 o endereco de CHAR_POS
 	
