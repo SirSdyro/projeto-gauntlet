@@ -22,12 +22,19 @@ Lamar:
 .include "lamar_baixo.data"
 .include "lamar_direita.data"
 .include "lamar_esquerda.data"
-.include "memoria_ram.data"
+.include "memoria_ram_cima.data"
+.include "memoria_ram_baixo.data"
+.include "memoria_ram_left.data"
+.include "memoria_ram_right.data"
 Ada:
 .include "ada_cima.data"
 .include "ada_baixo.data"
 .include "ada_direita.data"
 .include "ada_esquerda.data"
+.include "papel_perfurado_cima.data"
+.include "papel_perfurado_baixo.data"
+.include "papel_perfurado_left.data"
+.include "papel_perfurado_right.data"
 Babbage:
 .include "babbage_cima.data"
 .include "babbage_baixo.data"
@@ -426,7 +433,7 @@ MOV_CIMA:
 	sh t1,2(t0)
 
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_cima
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -486,7 +493,7 @@ MOV_BAIXO:
 	sh t1,2(t0)		
 	
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_baixo
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -538,7 +545,7 @@ MOV_LEFT:
 	sh t6,0(t0)
 			
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_left
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -590,7 +597,7 @@ MOV_RIGHT:
 	sh t6,0(t0)
 	
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_right
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0

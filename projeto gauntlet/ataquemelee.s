@@ -53,7 +53,7 @@ aux1:	li t5,0x00000007
 ########
 continue_melee1:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_cima
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -97,7 +97,7 @@ aux2:	li t5,0x00000007
 ########
 continue_melee2:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_baixo
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -142,7 +142,7 @@ aux3:	li t5,0x00000007
 ########	
 continue_melee3:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_left
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -186,7 +186,7 @@ aux4:	li t5,0x00000007
 ########	
 continue_melee4:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_right
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -268,6 +268,7 @@ CIMABAB:
 	mul t5,t1,t5	# y * 320	# Multiplica o y por 320
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
+	mv s8,t4
 	
 	li t5,320
 	li t3,15
@@ -277,12 +278,47 @@ CIMABAB:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux5
 	j GAME_LOOP
-aux5:	li t5,0x00000007
+aux5:	
+	addi t4,s8,-1
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,-1
+	li t5,320
+	li t3,-16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,0
+	li t5,320
+	li t3,-16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	li t5,320
+	li t3,-16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
 ########
 continue_melee5:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_cima
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -294,15 +330,6 @@ continue_melee5:
 	li a3,0
 	call print
  
-#for:	addi t6, t6, -1
-#	li t3, -3
-#	beq t6, t3, out
-#	mul t3,t6,t5		
-#	add t4,t4,t3			# Subtrai-se -1*320 para checar qual a cor do pixel logo acima das coordenadas do jogador
-#	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
-#	li t5,0xffffffC8		# Checa para ver se é azul/parede
-#	beq t4,t5,GAME_LOOP
-#	j for
 	j GAME_LOOP
 BAIXOBAB:
 	la t0,CHAR_POS
@@ -323,16 +350,53 @@ BAIXOBAB:
 	mul t5,t1,t5	# y * 320	# Multiplica o y por 320
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
+	mv s8,t4
 	
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux6
-aux6:	li t5,0x00000007
+	j GAME_LOOP
+aux6:	
+	addi t4,s8,-1
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,-1
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,0
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE			
 ########
 continue_melee6:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_baixo
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -344,15 +408,6 @@ continue_melee6:
 	li a3,0
 	call print
 	
-#FOR1:   addi t6, t6, 16
-#	li t3, 48
-#	beq t3, t6 out
-#	mul t3,t6,t5
-#	add t4,t4,t3
-#	lb t4,0(t4)
-#	li t5,0xffffffC8
-#	beq t4,t5,GAME_LOOP
-#	j FOR1
 	j GAME_LOOP
 LEFTBAB:
 	la t0,CHAR_POS
@@ -373,17 +428,63 @@ LEFTBAB:
 	mul t5,t1,t5	# y * 320	# Multiplica o y por 320
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
+	mv s8,t4
 	
 	addi t4,t4,15
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux7
-aux7:	li t5,0x00000007
+	j GAME_LOOP
+aux7:	
+	addi t4,s8,0
+	li t5,320
+	li t3,-1
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,0
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,-16
+	li t5,320
+	li t3,-1
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,-16
+	li t5,320
+	li t3,0
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,-16
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE	
+
 ########	
 continue_melee7:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_left
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -395,15 +496,6 @@ continue_melee7:
 	li a3,0
 	call print
 	
-#	li t6, 0
-#FOR2:   addi t6,t6, -1
-#	li t3, -3
-#	beq t6, t3, out
-#	add t4,t4,t6
-#	lb t4,0(t4)
-#	li t5,0xffffffC8
-#	beq t4,t5,GAME_LOOP
-#	j FOR2
  	j GAME_LOOP
 RIGHTBAB:
 	la t0,CHAR_POS
@@ -424,16 +516,61 @@ RIGHTBAB:
 	mul t5,t1,t5	# y * 320	# Multiplica o y por 320
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
+	mv s8,t4
 	
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
-	beq t4,t5,aux8
-aux8:	li t5,0x00000007
+	bne t4,t5,aux8
+	j GAME_LOOP
+aux8:	
+	addi t4,s8,0
+	li t5,320
+	li t3,-1
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,0
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	li t5,320
+	li t3,16
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	li t5,320
+	li t3,0
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	
+	addi t4,s8,16
+	li t5,320
+	li t3,-1
+	mul t3,t5,t3
+	add t4,t4,t3
+	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
+	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
 ########	
 continue_melee8:	
 	la t0,POS_MELEE
-	la a0,memoria_ram
+	la a0,memoria_ram_right
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -445,13 +582,4 @@ continue_melee8:
 	li a3,0
 	call print
 	
-#	li t6, 0
-#FOR3:   addi t6,t6, 16
-#	li t3, 48
-#	beq t6, t3, out
-#	add t4,t4,t6
-#	lb t4,0(t4)
-#	li t5,0xffffffC8
-#	beq t4,t5,GAME_LOOP
-#	j FOR3
 	j GAME_LOOP		

@@ -64,7 +64,7 @@ CIMA:
 ########	
 	
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_cima
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -106,7 +106,7 @@ BAIXO:
 ########	
 	
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_baixo
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -149,7 +149,7 @@ LEFT:
 ########	
 	
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_left
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -192,7 +192,7 @@ RIGHT:
 ########	
 	
 	la t0,POS_PROJ
-	la a0,memoria_ram
+	la a0,papel_perfurado_right
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
