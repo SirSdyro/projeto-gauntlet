@@ -11,12 +11,14 @@ lamar:
 .include "lamar_esquerda.data"
 .include "tile_hitbox_char.data"
 .include "tile_hitbox_enemy.data"
+.include "tile_hitbox_enemy2.data"
 .include "tile_hitbox_item1.data"
 .include "tile_hitbox_item2.data"
+.include "hitboxfase1.data"
 
 CHAR_POS:	.half 8,8			# x, y
 .text
-	la a0, tile_hitbox_item2
+	la a0, hitboxfase1
 	li a1,0				# x = 0
 	li a2,0				# y = 0
 	li a3,0				# frame = 0
@@ -30,8 +32,8 @@ CHAR_POS:	.half 8,8			# x, y
 
 
 li t0,0xFF000000
-li t2,0
-li t3,0
+li t2,72
+li t3,200
 li t4,320
 mul t4,t3,t4
 add t0,t0,t4

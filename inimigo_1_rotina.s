@@ -56,5 +56,6 @@ inimigo1_1:
 	la a0,tile1
 	li a3,1
 	call print
-	j game_loop1
+	
+	j inimigo_2
 ######	

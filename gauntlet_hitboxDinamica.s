@@ -7,6 +7,9 @@ menu:
 mapa_e_hitbox:
 .include "mapa1_teste.data"
 .include "hitbox_mapateste2.data"
+.include "hitboxfase1.data"
+.include "hitboxfase2.data"
+.include "hitboxfase3.data"
 .include "GauntletRoom001MapBG.data"
 .include "escotilha_aberta.data"
 .include "tile.data"
@@ -14,6 +17,7 @@ mapa_e_hitbox:
 .include "tile2.data"
 .include "tile_hitbox_char.data"
 .include "tile_hitbox_enemy.data"
+.include "tile_hitbox_enemy2.data"
 .include "tile_hitbox_item1.data"
 .include "hd.data"
 .include "tile_hitbox_item2.data"
@@ -57,8 +61,8 @@ CapacitorParasita:
 .include "descarga_capacitor.data"
 
 CHAR_SELECT:	.word 0				# define o personagem selecionado
-CHAR_POS:	.half 8,8			# x, y
-OLD_CHAR_POS:	.half 8,8			# x, y
+CHAR_POS:	.half 216,8			# x, y
+OLD_CHAR_POS:	.half 216,8			# x, y
 SAIDA_POS: 	.half 8,216			# x, y
 TEMPO: 		.word 60
 TEMPO_ATK: 	.word 1				# tempo até o ataque do inimigo
@@ -66,12 +70,21 @@ ENEMY_1_POS:    .half 216,216			# x, y
 ENEMY_1_OLD_POS:.half 216,216			# x, y
 ENEMY_1_ATK:	.half 0,0			# x, y
 ENEMY_1_SWITCH: .word 0				# permite a existência do inimigo 1 (no caso o capacitor parasita)
+ENEMY_2_POS:    .half 136,8			# x, y
+ENEMY_2_OLD_POS:.half 136,8			# x, y
+ENEMY_2_DIRECT:	.word 1
+ENEMY_2_SWITCH: .word 1				# permite a existência do inimigo 1 (no caso o capacitor parasita)
+ENEMY_3_POS:	.word 0,0
+ENEMY_3_OLD_POS:.word 0,0
+ENEMY_3_SWITCH:	.word 0
+ENEMY_3_PROJ:	.word 0
 DIRECAO_PROJ:   .word 0
 ATK_PROJ: 	.word 0				# registra a existência do projétil do personagem
 POS_PROJ:	.half 0,0			# x, y
 OLD_POS_PROJ:   .half 0,0			# x, y
 POS_MELEE:	.half 0,0			# x, y
 SCORE:		.word 0
+LEVEL:		.word 1
 
 .text
 #OBSERVAÇÕES:
@@ -171,11 +184,13 @@ SETUP:
 	li t0,1
 	beq s10,t0,map2
 	li t0,2
-	beq s10,t0,map2
+	beq s10,t0,map3
 
-map1:	la a0,mapa1_teste
+map1:	la a0,hitboxfase1
 	j setup1
-map2:	la a0,hitbox_mapateste2
+map2:	la a0,hitboxfase2
+	j setup1
+map3:	la a0,hitboxfase3
 	j setup1
 #Printa o mapa selecionado no frame 0
 setup1:	li a1,0				# x = 0
@@ -185,14 +200,19 @@ setup1:	li a1,0				# x = 0
 #Seleciona-se a hitbox correspondente com base no S10
 	beq s10,zero,hitbox1
 	li t0,1
-	beq s10,t0,hitbox2	
+	beq s10,t0,hitbox2
+	li t0,2
+	beq s10,t0,hitbox3	
 	
 hitbox1:
-	la a0,hitbox_mapateste2
+	la a0,hitboxfase1
 	j setup2
 hitbox2:
-	la a0,hitbox_mapateste2
+	la a0,hitboxfase2
 	j setup2
+hitbox3:
+	la a0,hitboxfase3
+	j setup2	
 #Printa a hitbox selecionada no frame 1		
 setup2:	li a1,0				# x = 0
 	li a2,0				# y = 0	
@@ -258,13 +278,19 @@ setup3:
 	li a3,0xFF
 	ecall
 	
+	la t0, LEVEL
+	lw t1, 0(t0)
+	li a7,101			# Printa o numero do level na tela
+	mv a0,t1
+	li a1,248
+	li a2,36
+	li a3,0xff
+	ecall
+	
 	la a0,hd
 	li a1,184
 	li a2,56
 	li a3,0
-	call print
-	la a0,tile_hitbox_item1
-	li a3,1
 	call print
 	
 	la a0,pendrive
@@ -272,14 +298,12 @@ setup3:
 	li a2,72
 	li a3,0
 	call print
-	la a0,tile_hitbox_item2
-	li a3,1
-	call print
+
 									
 #printando o inimigo e sua hitbox
 	la t0,ENEMY_1_SWITCH
 	lw t0,0(t0)
-	beq t0,zero,setup4
+	beq t0,zero,enemy_2_setup
 	la t0,ENEMY_1_POS	
 	la a0,capacitor_parasita
 	lh a1,0(t0)			# carrega a posicao x do personagem em a1
@@ -294,9 +318,30 @@ setup3:
 	lw t1,0(t0)
 	la t0,ENEMY_1_ATK
 	sw t1,0(t0)
+########
+enemy_2_setup:
+	la t0,ENEMY_2_SWITCH
+	lw t0,0(t0)
+	beq t0,zero,setup4
+	
+	la t0,ENEMY_2_POS	
+	la a0,babbage_cima
+	lh a1,0(t0)			# carrega a posicao x do personagem em a1
+	lh a2,2(t0)			# carrega a posicao y do personagem em a2
+	li a3,0				# carrega o valor do frame em a3
+	call print			# imprime o sprite
+	la a0,tile_hitbox_enemy2		# Carrega o endereço da hitbox do personagem
+	li a3,1				# Seleciona o frame 1
+	call print			# imprime o sprite	
+	
 	
 setup4:	
  	li s11,0			# Define o valor inicial do registrador da chave
+ 	
+ 	li a7,32
+ 	li a0,70
+ 	ecall
+ 	 
  	j GAME_LOOP
 ##########
 ##########
@@ -317,8 +362,12 @@ segundo:
 	li a2,56
 	li a3,0x37
 	ecall
-	beq t1,zero,sair
-	blt t1,zero,sair
+	bne t1,zero,babooey1
+	j sair
+babooey1:
+	bge t1,zero,babooey2
+	j sair
+babooey2:	
 #tempo_ataque_inimigo:
 	la t0,TEMPO_ATK			# Carrega o valor do tempo de ataque do inimigo
 	lw t1,0(t0)			
@@ -340,7 +389,10 @@ UPLIFE:
 	ecall
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
-	la a0,tile_hitbox_char		
+	la t0,CHAR_POS
+	la a0,tile_hitbox_char
+	lh a1,0(t0)
+	lh a2,2(t0)		
 	li a3,1
 	call print			# imprime o sprite
 	
@@ -371,7 +423,10 @@ UPSCORE:
 	ecall
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
-	la a0,tile_hitbox_char		
+	la t0,CHAR_POS
+	la a0,tile_hitbox_char
+	lh a1,0(t0)
+	lh a2,2(t0)		
 	li a3,1
 	call print			# imprime o sprite
 	
@@ -393,18 +448,46 @@ DANO_2:
 	lb t1,0(t0)
 	addi t1,t1,-10			# Decrementa 10 de dano
 	sb t1,0(t0)			# Atualiza o valor do tempo
+	
+	la t0,TEMPO
+	lb t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall
 	j GAME_LOOP
 ##########
 ##########
 CHECK_KEY:
 	beq s11,zero,GAME_LOOP
+	
+	li t2,'w'
+	beq s8,t2,retorna1		# se tecla pressionada for 'w', chama CHAR_CIMA
+	
+	li t2,'a'
+	beq s8,t2,retorna3		# se tecla pressionada for 'a', chama CHAR_CIMA
+	
+	li t2,'s'
+	beq s8,t2,retorna2		# se tecla pressionada for 's', chama CHAR_CIMA
+	
+	li t2,'d'
+	beq s8,t2,retorna4		# se tecla pressionada for 'd', chama CHAR_CIMA
+NEXTLEVEL:	
+#passando para a próxima fase
 	la t0,SAIDA_POS
 	la a0,escotilha_aberta		# carrega o endereco do sprite 'char' em a0
 	lh a1,0(t0)			# carrega a posicao x do personagem em a1
 	lh a2,2(t0)			# carrega a posicao y do personagem em a2
-	mv a3,s0			# carrega o valor do frame em a3
+	li a3,0				# carrega o valor do frame em a3
 	call print
-#passando para a próxima fase	
+	
+	la t0, LEVEL                    #Soma-se um ao valor que representa o level onde o player se encontra
+	lw t1, 0(t0)
+	addi t1, t1, 1                  #isso aqui fico logo embaixo do incrementador do mapa
+	sw t1, 0(t0)
+		
 	addi s10,s10,1			# Soma-se 1 ao registrador de selecionar o mapa para indicar que o próxima mapa com sua hitbox deve ser selecionado
 	li t4, 3
 	beq s10, t4, repetefase
@@ -413,13 +496,14 @@ repetefase:
 	mv s10, zero
 #reseta a posição do personagem	
 aux0:
-	li t1,8				# Soma-se 8 para resetar a posição inicial do personagem e sua hitbox(Supõe-se que a posição inicial do personagem será nas coordenadas (8,8) em todos os mapas por via de simplicidade)
+	li t1,8
+	li t2,200				# Soma-se 8 para resetar a posição inicial do personagem e sua hitbox(Supõe-se que a posição inicial do personagem será nas coordenadas (8,8) em todos os mapas por via de simplicidade)
 	la t0,CHAR_POS			# Carrega a posição do personagem 
 	sh t1,0(t0)			# Atualiza o x
-	sh t1,2(t0)			# Atualiza o y
+	sh t2,2(t0)			# Atualiza o y
 	la t0,OLD_CHAR_POS		# Carrega a posição antiga do personagem
 	sh t1,0(t0)			# Atualiza o x
-	sh t1,2(t0)			# Atualiza o y
+	sh t2,2(t0)			# Atualiza o y
 #reseta o tempo	
 	la t0,TEMPO
 	li t1,60
@@ -440,7 +524,21 @@ aux0:
 	sh t1,2(t0)
 	la t0,ENEMY_1_ATK
 	sh zero,0(t0)
-	sh zero,2(t0)	 		
+	sh zero,2(t0)
+	la t0,ENEMY_2_SWITCH
+	li t1,1
+	sw t1,0(t0)
+	la t0,ENEMY_2_POS
+	li t1,168
+	li t2,184
+	sh t1,0(t0)
+	sh t2,2(t0)
+	la t0,ENEMY_2_OLD_POS
+	sh t1,0(t0)
+	sh t2,2(t0)
+	la t0,ENEMY_2_DIRECT
+	li t1,1
+	sw t1,0(t0)	 		
 	j SETUP
 CHAVE:
 	li s11,1			# Altera o valor do registrador da chave
@@ -533,7 +631,9 @@ MOV_CIMA:
 	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 	beq t4,t5,CLEAN	
 	li t5,0x00000007		# Checa para ver se é vermelho/capacitor
-	beq t4,t5,CPCTR_KILL	
+	beq t4,t5,CPCTR_KILL
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL	
 #######	
 	la t0,POS_PROJ
 	lh t6,0(t0)
@@ -593,7 +693,9 @@ MOV_BAIXO:
 	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 	beq t4,t5,CLEAN
 	li t5,0x00000007		# Checa para ver se é vermelho/capacitor
-	beq t4,t5,CPCTR_KILL		
+	beq t4,t5,CPCTR_KILL
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL		
 #######	
 	la t0,POS_PROJ
 	lh t6,0(t0)
@@ -645,7 +747,9 @@ MOV_LEFT:
 	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 	beq t4,t5,CLEAN
 	li t5,0x00000007		# Checa para ver se é vermelho/capacitor
-	beq t4,t5,CPCTR_KILL	
+	beq t4,t5,CPCTR_KILL
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL	
 #######	
 	la t0,POS_PROJ
 	lh t6,0(t0)
@@ -697,7 +801,9 @@ MOV_RIGHT:
 	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 	beq t4,t5,CLEAN
 	li t5,0x00000007		# Checa para ver se é vermelho/capacitor
-	beq t4,t5,CPCTR_KILL	
+	beq t4,t5,CPCTR_KILL
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL	
 #######
 	la t0,POS_PROJ
 	lh t6,0(t0)
@@ -772,6 +878,43 @@ CPCTR_KILL:
 	call print
 	
 	j inimigo_1
+MOTO_KILL:
+	la t0,SCORE
+	lw t1,0(t0)
+	addi t1,t1,200
+	sw t1,0(t0)
+	lw t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,76
+	li a3,0xFF
+	ecall
+	
+	la t0,ENEMY_2_SWITCH
+	sw zero,0(t0)
+	
+	la t0,ATK_PROJ
+	sw zero,0(t0)
+	
+	la t0,ENEMY_2_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la a0,tile1
+	li a3,1
+	call print
+	
+	la t0,OLD_POS_PROJ
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
+	j inimigo_1	
 	
 					
 inimigo_1:
@@ -779,19 +922,50 @@ inimigo_1:
 #Checa para ver se o inimigo pode existir
 	la t0,ENEMY_1_SWITCH		
 	lw t0,0(t0)
-	beq t0,zero,game_loop1
+	beq t0,zero,inimigo_2
 ######
 #Checa para ver se pode atacar	
 	la t0,TEMPO_ATK
 	lw t1,0(t0)
-	bne t1,zero,game_loop1
+	bne t1,zero,inimigo_2
 	call inimigo_1_rotina
-
+	
+inimigo_2:
+	li t0,2500000
+	rem t1,s9,t0
+	bne t1,zero,inimigo_3
+######
+#Checa para ver se o inimigo pode existir
+	la t0,ENEMY_2_SWITCH		
+	lw t0,0(t0)
+	beq t0,zero,game_loop1
+	call inimigo_2_rotina
+	
+inimigo_3:
+	li t0,2500000
+	rem t1,s9,t0
+	bne t1,zero,game_loop1
+######
+#Checa para ver se o inimigo pode existir
+#	la t0,ENEMY_3_SWITCH		
+#	lw t0,0(t0)
+#	beq t0,zero,game_loop1
+#	call inimigo_3_rotina			
 DANO_1:
 	la t0,TEMPO			# Carrega o valor do tempo atual
 	lb t1,0(t0)
 	addi t1,t1,-10			# Decrementa 10 de dano
 	sb t1,0(t0)			# Atualiza o tempo
+	
+	la t0,TEMPO
+	lb t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall
+	
 ######
 #Printa a descarga para simbolizar o ataque bem efetuado
 	la t0,ENEMY_1_ATK
@@ -815,6 +989,7 @@ KEY2:	li t1,0xFF200000		# carrega o endereco de controle do KDMMIO
 	andi t0,t0,0x0001		# mascara o bit menos significativo
    	beq t0,zero,FIM   	   	# Se nao ha tecla pressionada entao vai para FIM
   	lw t2,4(t1)  			# le o valor da tecla tecla
+  	mv s8,t2
 	
 	li t0,'w'
 	beq t2,t0,CHAR_UP		# se tecla pressionada for 'w', chama CHAR_CIMA
@@ -857,9 +1032,14 @@ CHAR_UP:
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	beq t4,t5,GAME_LOOP
-	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
+	li t5,0x0000001f
 	beq t4,t5,CHECK_KEY
+retorna1:	
+	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
+	beq t4,t5,NEXTLEVEL
 	li t5,0x00000007
+	beq t4,t5,DANO_2
+	li t5,0x00000005
 	beq t4,t5,DANO_2
 	
 	addi t1,t1,-16			# decrementa 16 pixeis
@@ -962,7 +1142,6 @@ CHAR_DOWN:
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
 	
-	#la t4,hitbox_mapateste2
 	li t5,320
 	li t6,16
 	mul t3,t6,t5
@@ -970,9 +1149,14 @@ CHAR_DOWN:
 	lb t4,0(t4)
 	li t5,0xffffffC8
 	beq t4,t5,GAME_LOOP
-	li t5,0x00000038
+	li t5,0x0000001f
 	beq t4,t5,CHECK_KEY
+retorna2:	
+	li t5,0x00000038
+	beq t4,t5,NEXTLEVEL
 	li t5,0x00000007
+	beq t4,t5,DANO_2
+	li t5,0x00000005
 	beq t4,t5,DANO_2	
 	
 	la t0,CHAR_POS
@@ -1038,9 +1222,9 @@ down_1:
 	li t5,0x00000037
 	beq t4,t5,CHAVE
 	li t5, 0x00000018
-	beq t4, t5, UPLIFE
+	beq t4,t5,UPLIFE
 	li t5, 0x0000003d
-	beq t4, t5, UPSCORE	
+	beq t4,t5,UPSCORE	
 ##########
 		
 	la a0,tile_hitbox_char
@@ -1080,14 +1264,18 @@ CHAR_LEFT:
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
 	
-	#la t4,hitbox_mapateste2
 	addi t4,t4,-1
 	lb t4,0(t4)
 	li t5,0xffffffC8
 	beq t4,t5,GAME_LOOP
-	li t5,0x00000038
+	li t5,0x0000001f
 	beq t4,t5,CHECK_KEY
+retorna3:	
+	li t5,0x00000038
+	beq t4,t5,NEXTLEVEL
 	li t5,0x00000007
+	beq t4,t5,DANO_2
+	li t5,0x00000005
 	beq t4,t5,DANO_2
 		
 	lh t1,0(t0)			# carrega o x atual do personagem
@@ -1191,14 +1379,18 @@ CHAR_RIGHT:
 	add t4,t4,t5			# Soma-se o y ao endereço base
 	add t4,t4,t6	# a1 += x	# Soma-se o x ao endereço base
 	
-	#la t4,hitbox_mapateste2
 	addi t4,t4,16
 	lb t4,0(t4)
 	li t5,0xffffffC8
 	beq t4,t5,GAME_LOOP
-	li t5,0x00000038
+	li t5,0x0000001f
 	beq t4,t5,CHECK_KEY
+retorna4:	
+	li t5,0x00000038
+	beq t4,t5,NEXTLEVEL
 	li t5,0x00000007
+	beq t4,t5,DANO_2
+	li t5,0x00000005
 	beq t4,t5,DANO_2
 		
 	lh t1,0(t0)			# carrega o x atual do personagem
@@ -1306,7 +1498,8 @@ sair:
 	ecall
 	
 .include "print.s"
-.include "inimigo_1_rotina.s"	
+.include "inimigo_1_rotina.s"
 .include "ataqueproj.s"
+.include "inimigo_2_rotina.s"
 .include "ataquemelee.s"	
 .include "SYSTEMv21.s"

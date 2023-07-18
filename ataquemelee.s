@@ -50,6 +50,8 @@ CHECKCIMALAMAR:
 	j GAME_LOOP
 aux1:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
 ########
 continue_melee1:	
 	la t0,POS_MELEE
@@ -59,7 +61,7 @@ continue_melee1:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -94,6 +96,8 @@ CHECKBAIXOLAMAR:
 	j GAME_LOOP
 aux2:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
 ########
 continue_melee2:	
 	la t0,POS_MELEE
@@ -103,7 +107,7 @@ continue_melee2:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -139,6 +143,8 @@ CHECKLEFTLAMAR:
 	j GAME_LOOP
 aux3:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
 ########	
 continue_melee3:	
 	la t0,POS_MELEE
@@ -148,7 +154,7 @@ continue_melee3:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -183,6 +189,8 @@ CHECKRIGHTLAMAR:
 	j GAME_LOOP
 aux4:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
 ########	
 continue_melee4:	
 	la t0,POS_MELEE
@@ -192,7 +200,7 @@ continue_melee4:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -248,6 +256,53 @@ CPCTR_KILL_MELEE:
 	la t0,babbage_direita
 	beq t0,s3,continue_melee8
 	
+MOTO_KILL_MELEE:
+	la t0,SCORE
+	lw t1,0(t0)
+	addi t1,t1,200
+	sw t1,0(t0)
+	lw t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,76
+	li a3,0xFF
+	ecall
+
+	la t0,ENEMY_2_SWITCH
+	sw zero,0(t0)
+	
+	la t0,ENEMY_2_POS
+	la a0,tile1
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,1
+	call print
+	
+	la t0,lamar_cima
+	beq t0,s3,continue_melee1
+
+	la t0,lamar_baixo
+	beq t0,s3,continue_melee2
+	
+	la t0,lamar_esquerda
+	beq t0,s3,continue_melee3
+	
+	la t0,lamar_direita
+	beq t0,s3,continue_melee4
+	
+	la t0,babbage_cima
+	beq t0,s3,continue_melee5
+
+	la t0,babbage_baixo
+	beq t0,s3,continue_melee6
+	
+	la t0,babbage_esquerda
+	beq t0,s3,continue_melee7
+	
+	la t0,babbage_direita
+	beq t0,s3,continue_melee8
+		
 ATAQUE_BAB:
  
 	la t1,babbage_cima
@@ -336,7 +391,7 @@ continue_melee5:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -414,7 +469,7 @@ continue_melee6:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -502,7 +557,7 @@ continue_melee7:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
@@ -588,7 +643,7 @@ continue_melee8:
 	li a3,0
 	call print
 	li a7,32
-	li a0,250
+	li a0,150
 	ecall
 	la a0,tile
 	li a3,0
