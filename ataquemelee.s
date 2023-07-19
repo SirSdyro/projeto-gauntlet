@@ -1,10 +1,13 @@
 SELECMELEE:
-	li t1, '1'
-	beq t0, t1, ATAQUE_LAMAR        #manda o programa para os checks do babbage
 
+	li t1, '1'
+	bne t0, t1, urubu1        #manda o programa para os checks do babbage
+	j ATAQUE_LAMAR
+urubu1:
 	li t1, '3'
-	beq t0, t1, ATAQUE_BAB        #manda o programa para os checks do babbage
- 
+	bne t0, t1, urubu2        #manda o programa para os checks do babbage
+ 	j ATAQUE_BAB
+urubu2:	
 ATAQUE_LAMAR:
  
 	la t1,lamar_cima
@@ -49,9 +52,15 @@ CHECKCIMALAMAR:
 	bne t4,t5,aux1
 	j GAME_LOOP
 aux1:	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	li t5,0x00000005
-	beq t4,t5,MOTO_KILL_MELEE
+	bne t4,t5,urubu3
+	j CPCTR_KILL_MELEE
+urubu3:	li t5,0x00000005
+	bne t4,t5,urubu4
+	j MOTO_KILL_MELEE
+urubu4:	li t5,0xffffffcd
+	bne t4,t5,urubu5
+	j PROJETOR_KILL_MELEE
+urubu5:	
 ########
 continue_melee1:	
 	la t0,POS_MELEE
@@ -95,9 +104,15 @@ CHECKBAIXOLAMAR:
 	bne t4,t5,aux2
 	j GAME_LOOP
 aux2:	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	li t5,0x00000005
-	beq t4,t5,MOTO_KILL_MELEE
+	bne t4,t5,urubu6
+	j CPCTR_KILL_MELEE
+urubu6:	li t5,0x00000005
+	bne t4,t5,urubu7
+	j MOTO_KILL_MELEE
+urubu7:	li t5,0xffffffcd
+	bne t4,t5,urubu8
+	j PROJETOR_KILL_MELEE
+urubu8:	
 ########
 continue_melee2:	
 	la t0,POS_MELEE
@@ -142,9 +157,15 @@ CHECKLEFTLAMAR:
 	bne t4,t5,aux3
 	j GAME_LOOP
 aux3:	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	li t5,0x00000005
-	beq t4,t5,MOTO_KILL_MELEE
+	bne t4,t5,urubu9
+	j CPCTR_KILL_MELEE
+urubu9:	li t5,0x00000005
+	bne t4,t5,urubu10
+	j MOTO_KILL_MELEE
+urubu10:li t5,0xffffffcd
+	bne t4,t5,urubu11
+	j PROJETOR_KILL_MELEE
+urubu11:	
 ########	
 continue_melee3:	
 	la t0,POS_MELEE
@@ -188,9 +209,15 @@ CHECKRIGHTLAMAR:
 	bne t4,t5,aux4
 	j GAME_LOOP
 aux4:	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	li t5,0x00000005
-	beq t4,t5,MOTO_KILL_MELEE
+	bne t4,t5,urubu12
+	j CPCTR_KILL_MELEE
+urubu12:li t5,0x00000005
+	bne t4,t5,urubu13
+	j MOTO_KILL_MELEE
+urubu13:li t5,0xffffffcd
+	bne t4,t5,urubu14
+	j PROJETOR_KILL_MELEE
+urubu14:	
 ########	
 continue_melee4:	
 	la t0,POS_MELEE
@@ -302,6 +329,52 @@ MOTO_KILL_MELEE:
 	
 	la t0,babbage_direita
 	beq t0,s3,continue_melee8
+PROJETOR_KILL_MELEE:
+	la t0,SCORE
+	lw t1,0(t0)
+	addi t1,t1,200
+	sw t1,0(t0)
+	lw t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,76
+	li a3,0xFF
+	ecall
+
+	la t0,ENEMY_3_SWITCH
+	sw zero,0(t0)
+	
+	la t0,ENEMY_3_POS
+	la a0,tile1
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,1
+	call print
+	
+	la t0,lamar_cima
+	beq t0,s3,continue_melee1
+
+	la t0,lamar_baixo
+	beq t0,s3,continue_melee2
+	
+	la t0,lamar_esquerda
+	beq t0,s3,continue_melee3
+	
+	la t0,lamar_direita
+	beq t0,s3,continue_melee4
+	
+	la t0,babbage_cima
+	beq t0,s3,continue_melee5
+
+	la t0,babbage_baixo
+	beq t0,s3,continue_melee6
+	
+	la t0,babbage_esquerda
+	beq t0,s3,continue_melee7
+	
+	la t0,babbage_direita
+	beq t0,s3,continue_melee8	
 		
 ATAQUE_BAB:
  
@@ -345,17 +418,37 @@ CIMABAB:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux5
 	j GAME_LOOP
-aux5:	
+aux5:	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0xffffffcd
+	beq t4,t5,PROJETOR_KILL_MELEE
+	
 	addi t4,s8,-1
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	
+	bne t4,t5,urubu15
+	j CPCTR_KILL_MELEE
+urubu15:li t5,0x00000005
+	bne t4,t5,urubu16
+	j MOTO_KILL_MELEE
+urubu16:li t5,0xffffffcd
+	bne t4,t5,urubu17
+	j PROJETOR_KILL_MELEE
+urubu17:
 	addi t4,s8,16
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	
+	bne t4,t5,urubu18
+	j CPCTR_KILL_MELEE
+urubu18:li t5,0x00000005
+	bne t4,t5,urubu19
+	j MOTO_KILL_MELEE
+urubu19:li t5,0xffffffcd
+	bne t4,t5,urubu20
+	j PROJETOR_KILL_MELEE
+urubu20:
 	addi t4,s8,-1
 	li t5,320
 	li t3,-16
@@ -363,8 +456,15 @@ aux5:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	
+	bne t4,t5,urubu21
+	j CPCTR_KILL_MELEE
+urubu21:li t5,0x00000005
+	bne t4,t5,urubu22
+	j MOTO_KILL_MELEE
+urubu22:li t5,0xffffffcd
+	bne t4,t5,urubu23
+	j PROJETOR_KILL_MELEE
+urubu23:
 	addi t4,s8,0
 	li t5,320
 	li t3,-16
@@ -372,8 +472,15 @@ aux5:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	
+	bne t4,t5,urubu24
+	j CPCTR_KILL_MELEE
+urubu24:li t5,0x00000005
+	bne t4,t5,urubu25
+	j MOTO_KILL_MELEE
+urubu25:li t5,0xffffffcd
+	bne t4,t5,urubu26
+	j PROJETOR_KILL_MELEE
+urubu26:
 	addi t4,s8,16
 	li t5,320
 	li t3,-16
@@ -381,7 +488,15 @@ aux5:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu27
+	j CPCTR_KILL_MELEE
+urubu27:li t5,0x00000005
+	bne t4,t5,urubu28
+	j MOTO_KILL_MELEE
+urubu28:li t5,0xffffffcd
+	bne t4,t5,urubu29
+	j PROJETOR_KILL_MELEE
+urubu29:
 ########
 continue_melee5:	
 	la t0,POS_MELEE
@@ -423,16 +538,37 @@ BAIXOBAB:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux6
 	j GAME_LOOP
-aux6:	
+aux6:	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0xffffffcd
+	beq t4,t5,PROJETOR_KILL_MELEE
+	
 	addi t4,s8,-1
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
-	
+	bne t4,t5,urubu30
+	j CPCTR_KILL_MELEE
+urubu30:li t5,0x00000005
+	bne t4,t5,urubu31
+	j MOTO_KILL_MELEE
+urubu31:li t5,0xffffffcd
+	bne t4,t5,urubu32
+	j PROJETOR_KILL_MELEE
+urubu32:	
 	addi t4,s8,16
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu33
+	j CPCTR_KILL_MELEE
+urubu33:li t5,0x00000005
+	bne t4,t5,urubu34
+	j MOTO_KILL_MELEE
+urubu34:li t5,0xffffffcd
+	bne t4,t5,urubu35
+	j PROJETOR_KILL_MELEE
+urubu35:
 	
 	addi t4,s8,-1
 	li t5,320
@@ -441,7 +577,15 @@ aux6:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu36
+	j CPCTR_KILL_MELEE
+urubu36:li t5,0x00000005
+	bne t4,t5,urubu37
+	j MOTO_KILL_MELEE
+urubu37:li t5,0xffffffcd
+	bne t4,t5,urubu38
+	j PROJETOR_KILL_MELEE
+urubu38:
 	
 	addi t4,s8,0
 	li t5,320
@@ -450,7 +594,15 @@ aux6:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu39
+	j CPCTR_KILL_MELEE
+urubu39:li t5,0x00000005
+	bne t4,t5,urubu40
+	j MOTO_KILL_MELEE
+urubu40:li t5,0xffffffcd
+	bne t4,t5,urubu41
+	j PROJETOR_KILL_MELEE
+urubu41:
 	
 	addi t4,s8,16
 	li t5,320
@@ -459,7 +611,15 @@ aux6:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE			
+	bne t4,t5,urubu42
+	j CPCTR_KILL_MELEE
+urubu42:li t5,0x00000005
+	bne t4,t5,urubu43
+	j MOTO_KILL_MELEE
+urubu43:li t5,0xffffffcd
+	bne t4,t5,urubu44
+	j PROJETOR_KILL_MELEE
+urubu44:			
 ########
 continue_melee6:	
 	la t0,POS_MELEE
@@ -502,7 +662,13 @@ LEFTBAB:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux7
 	j GAME_LOOP
-aux7:	
+aux7:	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0xffffffcd
+	beq t4,t5,PROJETOR_KILL_MELEE
+	
 	addi t4,s8,0
 	li t5,320
 	li t3,-1
@@ -510,7 +676,15 @@ aux7:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu45
+	j CPCTR_KILL_MELEE
+urubu45:li t5,0x00000005
+	bne t4,t5,urubu46
+	j MOTO_KILL_MELEE
+urubu46:li t5,0xffffffcd
+	bne t4,t5,urubu47
+	j PROJETOR_KILL_MELEE
+urubu47:
 	
 	addi t4,s8,0
 	li t5,320
@@ -519,7 +693,15 @@ aux7:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu48
+	j CPCTR_KILL_MELEE
+urubu48:li t5,0x00000005
+	bne t4,t5,urubu49
+	j MOTO_KILL_MELEE
+urubu49:li t5,0xffffffcd
+	bne t4,t5,urubu50
+	j PROJETOR_KILL_MELEE
+urubu50:
 	
 	addi t4,s8,-16
 	li t5,320
@@ -528,7 +710,15 @@ aux7:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu51
+	j CPCTR_KILL_MELEE
+urubu51:li t5,0x00000005
+	bne t4,t5,urubu52
+	j MOTO_KILL_MELEE
+urubu52:li t5,0xffffffcd
+	bne t4,t5,urubu53
+	j PROJETOR_KILL_MELEE
+urubu53:
 	
 	addi t4,s8,-16
 	li t5,320
@@ -537,7 +727,15 @@ aux7:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu54
+	j CPCTR_KILL_MELEE
+urubu54:li t5,0x00000005
+	bne t4,t5,urubu55
+	j MOTO_KILL_MELEE
+urubu55:li t5,0xffffffcd
+	bne t4,t5,urubu56
+	j PROJETOR_KILL_MELEE
+urubu56:
 	
 	addi t4,s8,-16
 	li t5,320
@@ -546,7 +744,15 @@ aux7:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE	
+	bne t4,t5,urubu57
+	j CPCTR_KILL_MELEE
+urubu57:li t5,0x00000005
+	bne t4,t5,urubu58
+	j MOTO_KILL_MELEE
+urubu58:li t5,0xffffffcd
+	bne t4,t5,urubu59
+	j PROJETOR_KILL_MELEE
+urubu59:	
 
 ########	
 continue_melee7:	
@@ -589,7 +795,13 @@ RIGHTBAB:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	bne t4,t5,aux8
 	j GAME_LOOP
-aux8:	
+aux8:	li t5,0x00000007
+	beq t4,t5,CPCTR_KILL_MELEE
+	li t5,0x00000005
+	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0xffffffcd
+	beq t4,t5,PROJETOR_KILL_MELEE
+	
 	addi t4,s8,0
 	li t5,320
 	li t3,-1
@@ -597,7 +809,15 @@ aux8:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu60
+	j CPCTR_KILL_MELEE
+urubu60:li t5,0x00000005
+	bne t4,t5,urubu61
+	j MOTO_KILL_MELEE
+urubu61:li t5,0xffffffcd
+	bne t4,t5,urubu62
+	j PROJETOR_KILL_MELEE
+urubu62:
 	
 	addi t4,s8,0
 	li t5,320
@@ -606,7 +826,15 @@ aux8:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu63
+	j CPCTR_KILL_MELEE
+urubu63:li t5,0x00000005
+	bne t4,t5,urubu64
+	j MOTO_KILL_MELEE
+urubu64:li t5,0xffffffcd
+	bne t4,t5,urubu65
+	j PROJETOR_KILL_MELEE
+urubu65:
 	
 	addi t4,s8,16
 	li t5,320
@@ -615,7 +843,15 @@ aux8:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu66
+	j CPCTR_KILL_MELEE
+urubu66:li t5,0x00000005
+	bne t4,t5,urubu67
+	j MOTO_KILL_MELEE
+urubu67:li t5,0xffffffcd
+	bne t4,t5,urubu68
+	j PROJETOR_KILL_MELEE
+urubu68:
 	
 	addi t4,s8,16
 	li t5,320
@@ -624,7 +860,15 @@ aux8:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu69
+	j CPCTR_KILL_MELEE
+urubu69:li t5,0x00000005
+	bne t4,t5,urubu70
+	j MOTO_KILL_MELEE
+urubu70:li t5,0xffffffcd
+	bne t4,t5,urubu71
+	j PROJETOR_KILL_MELEE
+urubu71:
 	
 	addi t4,s8,16
 	li t5,320
@@ -633,7 +877,15 @@ aux8:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel	
 	li t5,0x00000007
-	beq t4,t5,CPCTR_KILL_MELEE
+	bne t4,t5,urubu72
+	j CPCTR_KILL_MELEE
+urubu72:li t5,0x00000005
+	bne t4,t5,urubu73
+	j MOTO_KILL_MELEE
+urubu73:li t5,0xffffffcd
+	bne t4,t5,urubu74
+	j PROJETOR_KILL_MELEE
+urubu74:
 ########	
 continue_melee8:	
 	la t0,POS_MELEE

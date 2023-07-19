@@ -11,8 +11,9 @@ ATAQUE_PROJ:
 	la t0,ATK_PROJ
 	lw t1,0(t0)
 	li t2,1
-	beq t1,t2,GAME_LOOP
-	
+	bne t1,t2,gaviao
+	j GAME_LOOP
+gaviao:	
  	la t0,ATK_PROJ
 	li t1,1
 	sw t1,0(t0)

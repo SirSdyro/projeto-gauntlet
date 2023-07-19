@@ -49,7 +49,7 @@ aux9:	la t0,ENEMY_2_POS
 	sh t1,2(t0)
 
 	la t0,ENEMY_2_POS
-	la a0,babbage_cima
+	la a0,moto_cima
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -75,7 +75,7 @@ aux9:	la t0,ENEMY_2_POS
 #	li a0,50
 #	ecall
 	
-	j game_loop1
+	j inimigo_3
 	
 		
 ENE_2_DOWN:
@@ -115,7 +115,7 @@ aux10:	la t0,ENEMY_2_POS
 	sh t1,2(t0)		
 	
 	la t0,ENEMY_2_POS
-	la a0,babbage_baixo
+	la a0,moto_baixo
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -141,7 +141,7 @@ aux10:	la t0,ENEMY_2_POS
 #	li a0,50
 #	ecall
 		
-	j game_loop1
+	j inimigo_3
 	
 ENE_2_LEFT:
 	la t0,ENEMY_2_POS			# carrega em t0 o endereco de CHAR_POS
@@ -177,7 +177,7 @@ aux11:	la t0,ENEMY_2_POS
 	sh t6,0(t0)
 			
 	la t0,ENEMY_2_POS
-	la a0,babbage_esquerda
+	la a0,moto_esquerda
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -203,7 +203,7 @@ aux11:	la t0,ENEMY_2_POS
 #	li a0,50
 #	ecall
 		
-	j game_loop1
+	j inimigo_3
 
 ENE_2_RIGHT:
 	la t0,ENEMY_2_POS			# carrega em t0 o endereco de CHAR_POS
@@ -241,7 +241,7 @@ aux12:
 	sh t6,0(t0)
 	
 	la t0,ENEMY_2_POS
-	la a0,babbage_direita
+	la a0,moto_direita
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -267,7 +267,7 @@ aux12:
 #	li a0,50
 #	ecall
 		
-	j game_loop1
+	j inimigo_3
 	
 VIRA_DIREITA:
 
@@ -281,7 +281,7 @@ vira1:
 	la t0,ENEMY_2_DIRECT
 	li t1,4
 	sw t1,0(t0)
-	j game_loop1
+	j inimigo_3
 		
 cont1:
 	li t0,2
@@ -291,7 +291,7 @@ vira2:
 	la t0,ENEMY_2_DIRECT
 	li t1,3
 	sw t1,0(t0)
-	j game_loop1
+	j inimigo_3
 	
 cont2:	
 	li t0,3
@@ -301,7 +301,8 @@ vira3:
 	la t0,ENEMY_2_DIRECT
 	li t1,1
 	sw t1,0(t0)
-	j game_loop1
+	
+	j inimigo_3
 	
 cont3:	
 	li t0,4
@@ -310,7 +311,8 @@ vira4:
 	la t0,ENEMY_2_DIRECT
 	li t1,2
 	sw t1,0(t0)
-	j game_loop1
+	
+	j inimigo_3
 DANO_ENEMY_2:
 	la t0,TEMPO			# Carrega o valor do tempo atual
 	lb t1,0(t0)
