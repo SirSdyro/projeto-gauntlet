@@ -1,28 +1,28 @@
-inimigo_2_rotina:
-	la t0,ENEMY_2_DIRECT
+inimigo_2_rotina_2:
+	la t0,ENEMY_2_DIRECT_2
 	lw t1,0(t0)
 			
 	li t2,1
-	beq t2,t1,ENE_2_UP
+	beq t2,t1,ENE_2_UP_2
  
 	li t2,2
-	beq t2,t1,ENE_2_DOWN
+	beq t2,t1,ENE_2_DOWN_2
 	
 	li t2,3
-	beq t2,t1,ENE_2_LEFT
+	beq t2,t1,ENE_2_LEFT_2
  
 	li t2,4
-	beq t2,t1,ENE_2_RIGHT
+	beq t2,t1,ENE_2_RIGHT_2
 	
-ENE_2_UP:
-	la t0,ENEMY_2_POS			# carrega em t0 o endereco de CHAR_POS
-	la t1,ENEMY_2_OLD_POS		# carrega em t1 o endereco de OLD_CHAR_POS
+ENE_2_UP_2:
+	la t0,ENEMY_2_POS_2			# carrega em t0 o endereco de CHAR_POS
+	la t1,ENEMY_2_OLD_POS_2		# carrega em t1 o endereco de OLD_CHAR_POS
 	lw t2,0(t0)
 	sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 		
 #######		
 #checa colisão
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	
@@ -35,36 +35,36 @@ ENE_2_UP:
 	addi t4,t4,-320	
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0x00000037		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA	
+	beq t4,t5,VIRA_DIREITA_2	
 	li t5,0xfffffff8
-	beq t4,t5,DANO_ENEMY_2
+	beq t4,t5,DANO_ENEMY_2_2
 	
 #	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 #	beq t4,t5,CLEAN		
 #######	
-aux9:	la t0,ENEMY_2_POS
+aux9_2:	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	addi t1,t1,-16
 	sh t1,2(t0)
 
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	la a0,moto_cima
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
 	call print
-	la a0,tile_hitbox_enemy2
+	la a0,tile_hitbox_enemy2_2
 	li a3,1
 	call print
 	
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	sh a1,0(t0)
 	sh a2,2(t0)
 	
-	la t0,ENEMY_2_OLD_POS
+	la t0,ENEMY_2_OLD_POS_2
 	la a0,tile
 	lh a1,0(t0)
 	lh a2,2(t0)
@@ -77,18 +77,18 @@ aux9:	la t0,ENEMY_2_POS
 #	li a0,50
 #	ecall
 	
-	j inimigo_2_2
+	j inimigo_3
 	
 		
-ENE_2_DOWN:
-	la t0,ENEMY_2_POS			# carrega em t0 o endereco de CHAR_POS
-	la t1,ENEMY_2_OLD_POS		# carrega em t1 o endereco de OLD_CHAR_POS
+ENE_2_DOWN_2:
+	la t0,ENEMY_2_POS_2			# carrega em t0 o endereco de CHAR_POS
+	la t1,ENEMY_2_OLD_POS_2		# carrega em t1 o endereco de OLD_CHAR_POS
 	lw t2,0(t0)
 	sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 	
 #######		
 #checa colisão
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	
@@ -104,35 +104,35 @@ ENE_2_DOWN:
 	add t4,t4,t3
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0x00000037		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0xfffffff8
-	beq t4,t5,DANO_ENEMY_2
+	beq t4,t5,DANO_ENEMY_2_2
 #	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 #	beq t4,t5,CLEAN	
 #######	
-aux10:	la t0,ENEMY_2_POS
+aux10_2:	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	addi t1,t1,16
 	sh t1,2(t0)		
 	
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	la a0,moto_baixo
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
 	call print
-	la a0,tile_hitbox_enemy2
+	la a0,tile_hitbox_enemy2_2
 	li a3,1
 	call print
 	
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	sh a1,0(t0)
 	sh a2,2(t0)
 	
-	la t0,ENEMY_2_OLD_POS
+	la t0,ENEMY_2_OLD_POS_2
 	la a0,tile
 	lh a1,0(t0)
 	lh a2,2(t0)
@@ -145,17 +145,17 @@ aux10:	la t0,ENEMY_2_POS
 #	li a0,50
 #	ecall
 		
-	j inimigo_2_2
+	j inimigo_3
 	
-ENE_2_LEFT:
-	la t0,ENEMY_2_POS			# carrega em t0 o endereco de CHAR_POS
-	la t1,ENEMY_2_OLD_POS		# carrega em t1 o endereco de OLD_CHAR_POS
+ENE_2_LEFT_2:
+	la t0,ENEMY_2_POS_2			# carrega em t0 o endereco de CHAR_POS
+	la t1,ENEMY_2_OLD_POS_2		# carrega em t1 o endereco de OLD_CHAR_POS
 	lw t2,0(t0)
 	sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 	
 #######	
 #checa colisão
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	
@@ -168,35 +168,35 @@ ENE_2_LEFT:
 	addi t4,t4,-1	
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0x00000037		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0xfffffff8
-	beq t4,t5,DANO_ENEMY_2
+	beq t4,t5,DANO_ENEMY_2_2
 #	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 #	beq t4,t5,CLEAN	
 #######	
-aux11:	la t0,ENEMY_2_POS
+aux11_2:	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	addi t6,t6,-16
 	sh t6,0(t0)
 			
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	la a0,moto_esquerda
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
 	call print
-	la a0,tile_hitbox_enemy2
+	la a0,tile_hitbox_enemy2_2
 	li a3,1
 	call print
 	
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	sh a1,0(t0)
 	sh a2,2(t0)
 	
-	la t0,ENEMY_2_OLD_POS
+	la t0,ENEMY_2_OLD_POS_2
 	la a0,tile
 	lh a1,0(t0)
 	lh a2,2(t0)
@@ -209,17 +209,17 @@ aux11:	la t0,ENEMY_2_POS
 #	li a0,50
 #	ecall
 		
-	j inimigo_2_2
+	j inimigo_3
 
-ENE_2_RIGHT:
-	la t0,ENEMY_2_POS			# carrega em t0 o endereco de CHAR_POS
-	la t1,ENEMY_2_OLD_POS		# carrega em t1 o endereco de OLD_CHAR_POS
+ENE_2_RIGHT_2:
+	la t0,ENEMY_2_POS_2			# carrega em t0 o endereco de CHAR_POS
+	la t1,ENEMY_2_OLD_POS_2		# carrega em t1 o endereco de OLD_CHAR_POS
 	lw t2,0(t0)
 	sw t2,0(t1)			# salva a posicao atual do personagem em OLD_CHAR_POS
 	
 #######		
 #checa colisão
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			# carrega o y atual do personagem
 	
@@ -232,37 +232,37 @@ ENE_2_RIGHT:
 	addi t4,t4,16	
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0x00000037		# Checa para ver se é azul/parede
-	beq t4,t5,VIRA_DIREITA
+	beq t4,t5,VIRA_DIREITA_2
 	li t5,0xfffffff8
-	beq t4,t5,DANO_ENEMY_2
+	beq t4,t5,DANO_ENEMY_2_2
 	
 #	li t5,0x00000038		# Checa para ver se é verde/porta/escotilha
 #	beq t4,t5,CLEAN	
 #######
-aux12:
-	la t0,ENEMY_2_POS
+aux12_2:
+	la t0,ENEMY_2_POS_2
 	lh t6,0(t0)
 	lh t1,2(t0)			
 	addi t6,t6,16
 	sh t6,0(t0)
 	
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	la a0,moto_direita
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
 	call print
-	la a0,tile_hitbox_enemy2
+	la a0,tile_hitbox_enemy2_2
 	li a3,1
 	call print
 		
-	la t0,ENEMY_2_POS
+	la t0,ENEMY_2_POS_2
 	sh a1,0(t0)
 	sh a2,2(t0)
 	
-	la t0,ENEMY_2_OLD_POS
+	la t0,ENEMY_2_OLD_POS_2
 	la a0,tile
 	lh a1,0(t0)
 	lh a2,2(t0)
@@ -275,53 +275,53 @@ aux12:
 #	li a0,50
 #	ecall
 		
-	j inimigo_2_2
+	j inimigo_3
 	
-VIRA_DIREITA:
+VIRA_DIREITA_2:
 
-	la t0,ENEMY_2_DIRECT
+	la t0,ENEMY_2_DIRECT_2
 	lw t1,0(t0)
 	
 	li t0,1
-	beq t1,t0,vira1
-	j cont1
-vira1:
-	la t0,ENEMY_2_DIRECT
+	beq t1,t0,vira1_2
+	j cont1_2
+vira1_2:
+	la t0,ENEMY_2_DIRECT_2
 	li t1,4
 	sw t1,0(t0)
-	j inimigo_2_2
+	j inimigo_3
 		
-cont1:
+cont1_2:
 	li t0,2
-	beq t1,t0,vira2
-	j cont2
-vira2:
-	la t0,ENEMY_2_DIRECT
+	beq t1,t0,vira2_2
+	j cont2_2
+vira2_2:
+	la t0,ENEMY_2_DIRECT_2
 	li t1,3
 	sw t1,0(t0)
-	j inimigo_2_2
+	j inimigo_3
 	
-cont2:	
+cont2_2:	
 	li t0,3
-	beq t1,t0,vira3
-	j cont3
-vira3:
-	la t0,ENEMY_2_DIRECT
+	beq t1,t0,vira3_2
+	j cont3_2
+vira3_2:
+	la t0,ENEMY_2_DIRECT_2
 	li t1,1
 	sw t1,0(t0)
 	
-	j inimigo_2_2
+	j inimigo_3
 	
-cont3:	
+cont3_2:	
 	li t0,4
-	beq t1,t0,vira4
-vira4:
-	la t0,ENEMY_2_DIRECT
+	beq t1,t0,vira4_2
+vira4_2:
+	la t0,ENEMY_2_DIRECT_2
 	li t1,2
 	sw t1,0(t0)
 	
-	j inimigo_2_2
-DANO_ENEMY_2:
+	j inimigo_3
+DANO_ENEMY_2_2:
 	la t0,TEMPO			# Carrega o valor do tempo atual
 	lb t1,0(t0)
 	addi t1,t1,-10			# Decrementa 10 de dano
@@ -336,21 +336,19 @@ DANO_ENEMY_2:
 	li a3,0x37
 	ecall
 	
-	la t0,ENEMY_2_DIRECT
+	la t0,ENEMY_2_DIRECT_2
 	lw t1,0(t0)
 	
 	li t2,1
-	beq t1,t2,aux9
+	beq t1,t2,aux9_2
 	
 	li t2,2
-	beq t1,t2,aux10
+	beq t1,t2,aux10_2
 	
 	li t2,3
-	beq t1,t2,aux11
+	beq t1,t2,aux11_2
 	
 	li t2,4
-	beq t1,t2,aux12
+	beq t1,t2,aux12_2
 
-#########	
-									
-			
+#########

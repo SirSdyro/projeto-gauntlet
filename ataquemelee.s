@@ -1,5 +1,4 @@
 SELECMELEE:
-
 	li t1, '1'
 	bne t0, t1, urubu1        #manda o programa para os checks do babbage
 	j ATAQUE_LAMAR
@@ -9,6 +8,17 @@ urubu1:
  	j ATAQUE_BAB
 urubu2:	
 ATAQUE_LAMAR:
+	la t0,TEMPO_COOLDOWN
+	li t1,2
+	sw t1,0(t0)
+	la t0,TEMPO_COOLDOWN
+	lw t1, 0(t0)
+	li a7,101			# Printa o numero do level na tela
+	mv a0,t1
+	li a1,248
+	li a2,96
+	li a3,0xff
+	ecall
  
 	la t1,lamar_cima
 	beq t1,s3,CHECKCIMALAMAR
@@ -56,8 +66,12 @@ aux1:	li t5,0x00000007
 	j CPCTR_KILL_MELEE
 urubu3:	li t5,0x00000005
 	bne t4,t5,urubu4
-	j MOTO_KILL_MELEE
-urubu4:	li t5,0xffffffcd
+	j MOTO_KILL_MELEE	
+urubu4:	li t5,0x00000004
+	bne t4,t5,urubu4_2
+	j MOTO_KILL_MELEE_2	
+urubu4_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu5
 	j PROJETOR_KILL_MELEE
 urubu5:	
@@ -109,7 +123,11 @@ aux2:	li t5,0x00000007
 urubu6:	li t5,0x00000005
 	bne t4,t5,urubu7
 	j MOTO_KILL_MELEE
-urubu7:	li t5,0xffffffcd
+urubu7:	li t5,0x00000004
+	bne t4,t5,urubu7_2
+	j MOTO_KILL_MELEE_2	
+urubu7_2:	
+	li t5,0xffffffcd
 	bne t4,t5,urubu8
 	j PROJETOR_KILL_MELEE
 urubu8:	
@@ -162,7 +180,11 @@ aux3:	li t5,0x00000007
 urubu9:	li t5,0x00000005
 	bne t4,t5,urubu10
 	j MOTO_KILL_MELEE
-urubu10:li t5,0xffffffcd
+urubu10:li t5,0x00000004
+	bne t4,t5,urubu10_2
+	j MOTO_KILL_MELEE_2	
+urubu10_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu11
 	j PROJETOR_KILL_MELEE
 urubu11:	
@@ -214,7 +236,11 @@ aux4:	li t5,0x00000007
 urubu12:li t5,0x00000005
 	bne t4,t5,urubu13
 	j MOTO_KILL_MELEE
-urubu13:li t5,0xffffffcd
+urubu13:li t5,0x00000004
+	bne t4,t5,urubu13_2
+	j MOTO_KILL_MELEE_2	
+urubu13_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu14
 	j PROJETOR_KILL_MELEE
 urubu14:	
@@ -237,9 +263,34 @@ continue_melee4:
 	
 ########
 CPCTR_KILL_MELEE:
+
+	la t0,ENEMY_1_SWITCH
+	lw t1,0(t0)
+	
+	la t2,CHAR_SELECT
+	lw t3,0(t2)
+	
+	li t2,'1'
+	beq t2,t3,dano_lamar1
+	li t2,'3'
+	beq t2,t3,dano_babbage1
+	
+dano_lamar1:	
+	addi t1,t1,-1
+	j ckm_aux2
+dano_babbage1:	
+	addi t1,t1,-2
+	j ckm_aux2	
+ckm_aux2:
+	sw t1,0(t0)
+	
+	la t0,ENEMY_1_SWITCH
+	lw t1,0(t0)
+	bgt t1,zero,ckm_aux
+	
 	la t0,SCORE
 	lw t1,0(t0)
-	addi t1,t1,200
+	addi t1,t1,350
 	sw t1,0(t0)
 	lw t1,0(t0)
 	li a7,101			# Printa o numero do tempo na tela
@@ -248,9 +299,6 @@ CPCTR_KILL_MELEE:
 	li a2,76
 	li a3,0xFF
 	ecall
-
-	la t0,ENEMY_1_SWITCH
-	sw zero,0(t0)
 	
 	la t0,ENEMY_1_POS
 	la a0,tile1
@@ -258,7 +306,11 @@ CPCTR_KILL_MELEE:
 	lh a2,2(t0)
 	li a3,1
 	call print
+	la a0,tile
+	li a3,0
+	call print
 	
+ckm_aux:	
 	la t0,lamar_cima
 	beq t0,s3,continue_melee1
 
@@ -284,6 +336,31 @@ CPCTR_KILL_MELEE:
 	beq t0,s3,continue_melee8
 	
 MOTO_KILL_MELEE:
+
+	la t0,ENEMY_2_SWITCH
+	lw t1,0(t0)
+	
+	la t2,CHAR_SELECT
+	lw t3,0(t2)
+	
+	li t2,'1'
+	beq t2,t3,dano_lamar2
+	li t2,'3'
+	beq t2,t3,dano_babbage2
+	
+dano_lamar2:	
+	addi t1,t1,-1
+	j mkm_aux2
+dano_babbage2:	
+	addi t1,t1,-2
+	j mkm_aux2	
+mkm_aux2:
+	sw t1,0(t0)
+	
+	la t0,ENEMY_2_SWITCH
+	lw t1,0(t0)
+	bgt t1,zero,mkm_aux
+	
 	la t0,SCORE
 	lw t1,0(t0)
 	addi t1,t1,200
@@ -295,9 +372,6 @@ MOTO_KILL_MELEE:
 	li a2,76
 	li a3,0xFF
 	ecall
-
-	la t0,ENEMY_2_SWITCH
-	sw zero,0(t0)
 	
 	la t0,ENEMY_2_POS
 	la a0,tile1
@@ -305,7 +379,11 @@ MOTO_KILL_MELEE:
 	lh a2,2(t0)
 	li a3,1
 	call print
+	la a0,tile
+	li a3,0
+	call print
 	
+mkm_aux:	
 	la t0,lamar_cima
 	beq t0,s3,continue_melee1
 
@@ -329,7 +407,33 @@ MOTO_KILL_MELEE:
 	
 	la t0,babbage_direita
 	beq t0,s3,continue_melee8
-PROJETOR_KILL_MELEE:
+
+MOTO_KILL_MELEE_2:
+
+	la t0,ENEMY_2_SWITCH_2
+	lw t1,0(t0)
+	
+	la t2,CHAR_SELECT
+	lw t3,0(t2)
+	
+	li t2,'1'
+	beq t2,t3,dano_lamar2_2
+	li t2,'3'
+	beq t2,t3,dano_babbage2_2
+	
+dano_lamar2_2:	
+	addi t1,t1,-1
+	j mkm_aux2_2
+dano_babbage2_2:	
+	addi t1,t1,-2
+	j mkm_aux2_2	
+mkm_aux2_2:
+	sw t1,0(t0)
+	
+	la t0,ENEMY_2_SWITCH_2
+	lw t1,0(t0)
+	bgt t1,zero,mkm_aux_2
+	
 	la t0,SCORE
 	lw t1,0(t0)
 	addi t1,t1,200
@@ -341,9 +445,78 @@ PROJETOR_KILL_MELEE:
 	li a2,76
 	li a3,0xFF
 	ecall
+	
+	la t0,ENEMY_2_POS_2
+	la a0,tile1
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,1
+	call print
+	la a0,tile
+	li a3,0
+	call print
+	
+mkm_aux_2:	
+	la t0,lamar_cima
+	beq t0,s3,continue_melee1
 
+	la t0,lamar_baixo
+	beq t0,s3,continue_melee2
+	
+	la t0,lamar_esquerda
+	beq t0,s3,continue_melee3
+	
+	la t0,lamar_direita
+	beq t0,s3,continue_melee4
+	
+	la t0,babbage_cima
+	beq t0,s3,continue_melee5
+
+	la t0,babbage_baixo
+	beq t0,s3,continue_melee6
+	
+	la t0,babbage_esquerda
+	beq t0,s3,continue_melee7
+	
+	la t0,babbage_direita
+	beq t0,s3,continue_melee8		
+	
+PROJETOR_KILL_MELEE:
 	la t0,ENEMY_3_SWITCH
-	sw zero,0(t0)
+	lw t1,0(t0)
+	
+	la t2,CHAR_SELECT
+	lw t3,0(t2)
+	
+	li t2,'1'
+	beq t2,t3,dano_lamar3
+	li t2,'3'
+	beq t2,t3,dano_babbage3
+	
+dano_lamar3:	
+	addi t1,t1,-1
+	j pkm_aux2
+dano_babbage3:	
+	addi t1,t1,-2
+	j pkm_aux2	
+pkm_aux2:
+	sw t1,0(t0)
+	
+	la t0,ENEMY_3_SWITCH
+	lw t1,0(t0)
+	bgt t1,zero,pkm_aux
+	
+	la t0,SCORE
+	lw t1,0(t0)
+	addi t1,t1,150
+	sw t1,0(t0)
+	lw t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,76
+	li a3,0xFF
+	ecall
 	
 	la t0,ENEMY_3_POS
 	la a0,tile1
@@ -351,7 +524,10 @@ PROJETOR_KILL_MELEE:
 	lh a2,2(t0)
 	li a3,1
 	call print
-	
+	la a0,tile
+	li a3,0
+	call print
+pkm_aux:	
 	la t0,lamar_cima
 	beq t0,s3,continue_melee1
 
@@ -377,6 +553,17 @@ PROJETOR_KILL_MELEE:
 	beq t0,s3,continue_melee8	
 		
 ATAQUE_BAB:
+	la t0,TEMPO_COOLDOWN
+	li t1,5
+	sw t1,0(t0)
+	la t0,TEMPO_COOLDOWN
+	lw t1, 0(t0)
+	li a7,101			# Printa o numero do level na tela
+	mv a0,t1
+	li a1,248
+	li a2,96
+	li a3,0xff
+	ecall
  
 	la t1,babbage_cima
 	beq t1,s3,CIMABAB
@@ -422,6 +609,8 @@ aux5:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
 	li t5,0x00000005
 	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0x00000004
+	beq t4,t5,MOTO_KILL_MELEE_2
 	li t5,0xffffffcd
 	beq t4,t5,PROJETOR_KILL_MELEE
 	
@@ -433,7 +622,11 @@ aux5:	li t5,0x00000007
 urubu15:li t5,0x00000005
 	bne t4,t5,urubu16
 	j MOTO_KILL_MELEE
-urubu16:li t5,0xffffffcd
+urubu16:li t5,0x00000004
+	bne t4,t5,urubu16_2
+	j MOTO_KILL_MELEE_2	
+urubu16_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu17
 	j PROJETOR_KILL_MELEE
 urubu17:
@@ -445,7 +638,11 @@ urubu17:
 urubu18:li t5,0x00000005
 	bne t4,t5,urubu19
 	j MOTO_KILL_MELEE
-urubu19:li t5,0xffffffcd
+urubu19:li t5,0x00000004
+	bne t4,t5,urubu19_2
+	j MOTO_KILL_MELEE_2	
+urubu19_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu20
 	j PROJETOR_KILL_MELEE
 urubu20:
@@ -461,7 +658,11 @@ urubu20:
 urubu21:li t5,0x00000005
 	bne t4,t5,urubu22
 	j MOTO_KILL_MELEE
-urubu22:li t5,0xffffffcd
+urubu22:li t5,0x00000004
+	bne t4,t5,urubu22_2
+	j MOTO_KILL_MELEE_2	
+urubu22_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu23
 	j PROJETOR_KILL_MELEE
 urubu23:
@@ -477,7 +678,11 @@ urubu23:
 urubu24:li t5,0x00000005
 	bne t4,t5,urubu25
 	j MOTO_KILL_MELEE
-urubu25:li t5,0xffffffcd
+urubu25:li t5,0x00000004
+	bne t4,t5,urubu25_2
+	j MOTO_KILL_MELEE_2	
+urubu25_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu26
 	j PROJETOR_KILL_MELEE
 urubu26:
@@ -493,14 +698,18 @@ urubu26:
 urubu27:li t5,0x00000005
 	bne t4,t5,urubu28
 	j MOTO_KILL_MELEE
-urubu28:li t5,0xffffffcd
+urubu28:li t5,0x00000004
+	bne t4,t5,urubu28_2
+	j MOTO_KILL_MELEE_2	
+urubu28_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu29
 	j PROJETOR_KILL_MELEE
 urubu29:
 ########
 continue_melee5:	
 	la t0,POS_MELEE
-	la a0,memoria_ram_cima
+	la a0,maquina_babbage
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -542,6 +751,8 @@ aux6:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
 	li t5,0x00000005
 	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0x00000004
+	beq t4,t5,MOTO_KILL_MELEE_2
 	li t5,0xffffffcd
 	beq t4,t5,PROJETOR_KILL_MELEE
 	
@@ -553,7 +764,11 @@ aux6:	li t5,0x00000007
 urubu30:li t5,0x00000005
 	bne t4,t5,urubu31
 	j MOTO_KILL_MELEE
-urubu31:li t5,0xffffffcd
+urubu31:li t5,0x00000004
+	bne t4,t5,urubu31_2
+	j MOTO_KILL_MELEE_2	
+urubu31_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu32
 	j PROJETOR_KILL_MELEE
 urubu32:	
@@ -565,7 +780,11 @@ urubu32:
 urubu33:li t5,0x00000005
 	bne t4,t5,urubu34
 	j MOTO_KILL_MELEE
-urubu34:li t5,0xffffffcd
+urubu34:li t5,0x00000004
+	bne t4,t5,urubu34_2
+	j MOTO_KILL_MELEE_2	
+urubu34_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu35
 	j PROJETOR_KILL_MELEE
 urubu35:
@@ -582,7 +801,11 @@ urubu35:
 urubu36:li t5,0x00000005
 	bne t4,t5,urubu37
 	j MOTO_KILL_MELEE
-urubu37:li t5,0xffffffcd
+urubu37:li t5,0x00000004
+	bne t4,t5,urubu37_2
+	j MOTO_KILL_MELEE_2	
+urubu37_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu38
 	j PROJETOR_KILL_MELEE
 urubu38:
@@ -599,7 +822,11 @@ urubu38:
 urubu39:li t5,0x00000005
 	bne t4,t5,urubu40
 	j MOTO_KILL_MELEE
-urubu40:li t5,0xffffffcd
+urubu40:li t5,0x00000004
+	bne t4,t5,urubu40_2
+	j MOTO_KILL_MELEE_2	
+urubu40_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu41
 	j PROJETOR_KILL_MELEE
 urubu41:
@@ -616,14 +843,18 @@ urubu41:
 urubu42:li t5,0x00000005
 	bne t4,t5,urubu43
 	j MOTO_KILL_MELEE
-urubu43:li t5,0xffffffcd
+urubu43:li t5,0x00000004
+	bne t4,t5,urubu43_2
+	j MOTO_KILL_MELEE_2	
+urubu43_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu44
 	j PROJETOR_KILL_MELEE
 urubu44:			
 ########
 continue_melee6:	
 	la t0,POS_MELEE
-	la a0,memoria_ram_baixo
+	la a0,maquina_babbage
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -666,6 +897,8 @@ aux7:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
 	li t5,0x00000005
 	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0x00000004
+	beq t4,t5,MOTO_KILL_MELEE_2
 	li t5,0xffffffcd
 	beq t4,t5,PROJETOR_KILL_MELEE
 	
@@ -681,7 +914,11 @@ aux7:	li t5,0x00000007
 urubu45:li t5,0x00000005
 	bne t4,t5,urubu46
 	j MOTO_KILL_MELEE
-urubu46:li t5,0xffffffcd
+urubu46:li t5,0x00000004
+	bne t4,t5,urubu46_2
+	j MOTO_KILL_MELEE_2	
+urubu46_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu47
 	j PROJETOR_KILL_MELEE
 urubu47:
@@ -698,7 +935,11 @@ urubu47:
 urubu48:li t5,0x00000005
 	bne t4,t5,urubu49
 	j MOTO_KILL_MELEE
-urubu49:li t5,0xffffffcd
+urubu49:li t5,0x00000004
+	bne t4,t5,urubu49_2
+	j MOTO_KILL_MELEE_2	
+urubu49_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu50
 	j PROJETOR_KILL_MELEE
 urubu50:
@@ -715,7 +956,11 @@ urubu50:
 urubu51:li t5,0x00000005
 	bne t4,t5,urubu52
 	j MOTO_KILL_MELEE
-urubu52:li t5,0xffffffcd
+urubu52:li t5,0x00000004
+	bne t4,t5,urubu52_2
+	j MOTO_KILL_MELEE_2	
+urubu52_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu53
 	j PROJETOR_KILL_MELEE
 urubu53:
@@ -732,7 +977,11 @@ urubu53:
 urubu54:li t5,0x00000005
 	bne t4,t5,urubu55
 	j MOTO_KILL_MELEE
-urubu55:li t5,0xffffffcd
+urubu55:li t5,0x00000004
+	bne t4,t5,urubu55_2
+	j MOTO_KILL_MELEE_2	
+urubu55_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu56
 	j PROJETOR_KILL_MELEE
 urubu56:
@@ -749,7 +998,11 @@ urubu56:
 urubu57:li t5,0x00000005
 	bne t4,t5,urubu58
 	j MOTO_KILL_MELEE
-urubu58:li t5,0xffffffcd
+urubu58:li t5,0x00000004
+	bne t4,t5,urubu58_2
+	j MOTO_KILL_MELEE_2	
+urubu58_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu59
 	j PROJETOR_KILL_MELEE
 urubu59:	
@@ -757,7 +1010,7 @@ urubu59:
 ########	
 continue_melee7:	
 	la t0,POS_MELEE
-	la a0,memoria_ram_left
+	la a0,maquina_babbage
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0
@@ -799,6 +1052,8 @@ aux8:	li t5,0x00000007
 	beq t4,t5,CPCTR_KILL_MELEE
 	li t5,0x00000005
 	beq t4,t5,MOTO_KILL_MELEE
+	li t5,0x00000004
+	beq t4,t5,MOTO_KILL_MELEE_2
 	li t5,0xffffffcd
 	beq t4,t5,PROJETOR_KILL_MELEE
 	
@@ -814,7 +1069,11 @@ aux8:	li t5,0x00000007
 urubu60:li t5,0x00000005
 	bne t4,t5,urubu61
 	j MOTO_KILL_MELEE
-urubu61:li t5,0xffffffcd
+urubu61:li t5,0x00000004
+	bne t4,t5,urubu61_2
+	j MOTO_KILL_MELEE_2	
+urubu61_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu62
 	j PROJETOR_KILL_MELEE
 urubu62:
@@ -831,7 +1090,11 @@ urubu62:
 urubu63:li t5,0x00000005
 	bne t4,t5,urubu64
 	j MOTO_KILL_MELEE
-urubu64:li t5,0xffffffcd
+urubu64:li t5,0x00000004
+	bne t4,t5,urubu64_2
+	j MOTO_KILL_MELEE_2		
+urubu64_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu65
 	j PROJETOR_KILL_MELEE
 urubu65:
@@ -848,7 +1111,11 @@ urubu65:
 urubu66:li t5,0x00000005
 	bne t4,t5,urubu67
 	j MOTO_KILL_MELEE
-urubu67:li t5,0xffffffcd
+urubu67:li t5,0x00000004
+	bne t4,t5,urubu67_2
+	j MOTO_KILL_MELEE_2	
+urubu67_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu68
 	j PROJETOR_KILL_MELEE
 urubu68:
@@ -865,7 +1132,11 @@ urubu68:
 urubu69:li t5,0x00000005
 	bne t4,t5,urubu70
 	j MOTO_KILL_MELEE
-urubu70:li t5,0xffffffcd
+urubu70:li t5,0x00000004
+	bne t4,t5,urubu70_2
+	j MOTO_KILL_MELEE_2	
+urubu70_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu71
 	j PROJETOR_KILL_MELEE
 urubu71:
@@ -882,14 +1153,18 @@ urubu71:
 urubu72:li t5,0x00000005
 	bne t4,t5,urubu73
 	j MOTO_KILL_MELEE
-urubu73:li t5,0xffffffcd
+urubu73:li t5,0x00000004
+	bne t4,t5,urubu73_2
+	j MOTO_KILL_MELEE_2	
+urubu73_2:
+	li t5,0xffffffcd
 	bne t4,t5,urubu74
 	j PROJETOR_KILL_MELEE
 urubu74:
 ########	
 continue_melee8:	
 	la t0,POS_MELEE
-	la a0,memoria_ram_right
+	la a0,maquina_babbage
 	lh a1,0(t0)
 	lh a2,2(t0)
 	li a3,0

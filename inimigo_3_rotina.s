@@ -17,7 +17,10 @@ inimigo_3_rotina:
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	beq t5,t4,CHECK_MOV
-	
+	li t5,0xfffffff8
+	bne t5,t4,ene3_aux
+	j DANO_2
+ene3_aux:	
 	la t0,ENEMY_3_PROJ
 	li t1,1
 	sw t1,0(t0)

@@ -14,13 +14,16 @@ lamar:
 .include "tile_hitbox_enemy2.data"
 .include "tile_hitbox_enemy3.data"
 .include "tile_hitbox_enemy3proj.data"
+.include "tile_hitbox_enemy2_2.data"
+.include "tile_hitbox_enemy3_2.data"
+.include "tile_hitbox_enemy3proj_2.data"
 .include "tile_hitbox_item1.data"
 .include "tile_hitbox_item2.data"
 .include "hitboxfase1.data"
 
 CHAR_POS:	.half 8,8			# x, y
 .text
-	la a0, tile_hitbox_enemy3proj
+	la a0, tile_hitbox_enemy2_2
 	li a1,0				# x = 0
 	li a2,0				# y = 0
 	li a3,0				# frame = 0
