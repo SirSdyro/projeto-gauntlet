@@ -1,34 +1,9 @@
 .include "MACROSv21.s"
 
 .data
-#tela game over
-.include "telagameover.data"
 menu:
-.include "menu10.data"
 .include "menu_gauntlet.data"
 .include "menu_gauntlet_2.data"
-
-#monitor_chiado
-.include "monitorchiado1.data"
-.include "monitorchiado2.data"
-.include "monitorchiado3.data"
-.include "monitorchiado4.data"
-.include "monitorchiado5.data"
-
-#controles
-.include "controles1.data"
-.include "controles2.data"
-.include "controles3.data"
-.include "controles4.data"
-.include "controles5.data"
-
-#teladesce
-.include "teladesce1.data"
-.include "teladesce2.data"
-.include "teladesce3.data"
-.include "teladesce4.data"
-.include "teladesce5.data"
-
 mapa_e_hitbox:
 .include "mapa1_teste.data"
 .include "hitbox_mapateste2.data"
@@ -124,34 +99,6 @@ POS_MELEE:	.half 0,0			# x, y
 SCORE:		.word 0
 LEVEL:		.word 1
 
-#EFEITOS SONOROS
-NUM_sair_menu: .word 6
-NOTAS_sair_menu: 74,200,74,200,71,200,67,200,64,200,60,1100
-
-NUM_controles:.word 2
-NOTAS_controles: 71,200,74,1100
-
-NUM_select: .word 6
-NOTAS_select: 60,200,60,200,64,200,67,200,71,200,74,1100
-
-NUM_game_over: .word 6
-NOTAS_game_over: 74,200,74,200,71,200,67,200,64,200,60,
-
-NUM_tomar_dano1: .word 3
-NOTAS_tomar_dano1: 50,64,50,60,50,60
-
-NUM_tomar_dano2: .word 3
-NOTAS_tomar_dano2: 50,64,50,60,50,60
-
-NUM_pegar_hd: .word 3
-NOTAS_pegar_hd: 90,100,90,100
-
-NUM_pegar_pendrive: .word 3
-NOTAS_pegar_pendrive: 90,100,90,100
-
-NUM_pegar_chave: .word 3
-NOTAS_pegar_chave: 90,100,90,100
-
 .text
 #OBSERVAÇÕES:
 #*No menu, a opção de ver as instruções ainda não está implementada, nada acontecerá se você pressionar 2
@@ -163,10 +110,8 @@ NOTAS_pegar_chave: 90,100,90,100
 
 ##########
 ##########
-j MENU
-###===== EFEITOS SONOROS =====###
 
-.include "efeitos_sonoros.s"
+j MENU
 
 RESTART:
 	mv s10,zero
@@ -215,7 +160,7 @@ RESTART:
 	la t0,SCORE
 	sw zero,0(t0)	
 MENU:
-	la a0, menu10			# Carrega o endereço do menu para printá-lo apenas no frame 0
+	la a0, menu_gauntlet		# Carrega o endereço do menu para printá-lo apenas no frame 0
 	li a1,0				# x = 0
 	li a2,0				# y = 0
 	li a3,0				# frame = 0
@@ -232,192 +177,25 @@ LOOP: 	lw t0,0(t1)			# Le bit de Controle Teclado
   	sw t2,12(t1)  			# escreve a tecla pressionada no display
   	
   	li t0,'1'
-  	beq t2,t0,EFC_EFECT_select
-  	
-  	li t0,'2'
-  	beq t2,t0,EFC_EFECT_controles
+  	beq t2,t0,SELECT
   	
   	li t0,'3'
-  	beq t2,t0,EFECT_sair_menu
-  	j KEY1
-
-CONTROLES:
-	la a0, monitorchiado1
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado3
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado4
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado5
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles1
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-
-	
-			li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
-LOOP_CONTROLES: 	lw t0,0(t1)			# Le bit de Controle Teclado
-   			andi t0,t0,0x0001		# mascara o bit menos significativo
-   			beq t0,zero,LOOP_CONTROLES	# não tem tecla pressionada então volta ao loop
-   			lw t2,4(t1)			# le o valor da tecla
-  			sw t2,12(t1)  			# escreve a tecla pressionada no display
-  	
-  			li t0,'0'
-  			beq t2,t0,fim_controles
-  			
-  			j LOOP_CONTROLES
-fim_controles:
-	la a0, controles2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles3
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles4
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles5
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	j MENU     
+  	beq t2,t0,sair1
+  	j test
 sair1: 	
-	li a7,10
-	ecall
+	j sair
   	
+test: 	j KEY1				# retorna
+##########
 ########## 	
 SELECT:
-	la a0, monitorchiado1		# Carrega o endereço do menu de seleção de personagem para printar apenas no frame 0
+	la a0, menu_gauntlet_2		# Carrega o endereço do menu de seleção de personagem para printar apenas no frame 0
 	li a1,0				# x = 0
 	li a2,0				# y = 0
 	li a3,0				# frame = 0
 	call print			# imprime o sprite
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado3
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado4
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado5
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, menu_gauntlet_2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
 	
 	call KEY1_2
-	
 KEY1_2: 	
 	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
 LOOP_2: lw t0,0(t1)			# Le bit de Controle Teclado
@@ -647,10 +425,10 @@ segundo:
 	li a3,0x37
 	ecall
 	bne t1,zero,babooey1
-	j EFC_EFECT_game_over
+	j RESTART
 babooey1:
 	bge t1,zero,babooey2
-	j EFC_EFECT_game_over
+	j RESTART
 babooey2:	
 #tempo_ataque_inimigo:
 	la t0,TEMPO_ATK			# Carrega o valor do tempo de ataque do inimigo
@@ -874,7 +652,7 @@ nxt_level_ene_3:
 	j SETUP
 UPLIFE:
 	la t0,TEMPO			# Carregando o valor do tempo atual
-	lb t1,0(t0)					
+	lb t1,0(t0)			
 	addi t1,t1,10			# incrementa 10 para represemtar os 10 de vida recuperados
 	sb t1,0(t0)			# Atualiza o tempo
 	lb t1,0(t0)			# Carrega o valor do tempo para printar
@@ -883,7 +661,7 @@ UPLIFE:
 	li a1,248
 	li a2,56
 	li a3,0x37
-	ecall	
+	ecall
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
 	la t0,CHAR_POS
@@ -903,13 +681,13 @@ UPLIFE:
 	la a0,tile1
 	li a3,1
 	call print			# imprime o sprite
-	j EFC_EFECT_pegar_hd
-continue_pegar_hd:	
+######	
+	j GAME_LOOP	
 ##########	
 UPSCORE:
 	la t0,SCORE			# Carregando o valor do tempo atual
-	lw t1,0(t0)		
-	addi t1,t1,100			# incrementa 10 para represemtar os 100 de pontos a mais
+	lw t1,0(t0)			
+	addi t1,t1,100			# incrementa 10 para represemtar os 10 de vida recuperados
 	sw t1,0(t0)
 	lw t1,0(t0)			# Carrega o valor do tempo para printar
 	li a7,101			# Printa o numero do tempo na tela
@@ -937,12 +715,9 @@ UPSCORE:
 	la a0,tile1
 	li a3,1
 	call print			# imprime o sprite
-	call EFECT_pegar_pendrive
-continue_pegar_pendrive:		
 ######	
 	j GAME_LOOP	
-
-CHAVE:			
+CHAVE:
 	li s11,1			# Altera o valor do registrador da chave
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
@@ -960,8 +735,6 @@ CHAVE:
 	la a0,tile1
 	li a3,1
 	call print			# imprime o sprite
-	call EFECT_pegar_chave
-continue_pegar_chave:
 ######	
 	j GAME_LOOP
 
@@ -1461,19 +1234,19 @@ PROJ_ENEMY_3:
 	call enemy_proj
 														
 DANO_1:
-		la t0,TEMPO			# Carrega o valor do tempo atual
-		lb t1,0(t0)
-		addi t1,t1,-10			# Decrementa 10 de dano
-		j EFC_EFECT_tomar_dano1
-continue_dano1: sb t1,0(t0)			# Atualiza o tempo
-		la t0,TEMPO
-		lb t1,0(t0)
-		li a7,101			# Printa o numero do tempo na tela
-		mv a0,t1
-		li a1,248
-		li a2,56
-		li a3,0x37
-		ecall	
+	la t0,TEMPO			# Carrega o valor do tempo atual
+	lb t1,0(t0)
+	addi t1,t1,-10			# Decrementa 10 de dano
+	sb t1,0(t0)			# Atualiza o tempo
+	
+	la t0,TEMPO
+	lb t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall	
 ######
 #Printa a descarga para simbolizar o ataque bem efetuado
 	la t0,ENEMY_1_ATK
@@ -1490,6 +1263,7 @@ DANO_2:
 	lb t1,0(t0)
 	addi t1,t1,-10			# Decrementa 10 de dano
 	sb t1,0(t0)			# Atualiza o valor do tempo
+	
 	la t0,TEMPO
 	lb t1,0(t0)
 	li a7,101			# Printa o numero do tempo na tela
@@ -1498,8 +1272,6 @@ DANO_2:
 	li a2,56
 	li a3,0x37
 	ecall
-	j EFC_EFECT_tomar_dano2
-continue_tomar_dano2:	
 	j GAME_LOOP
 ##########
 														
