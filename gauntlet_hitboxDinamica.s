@@ -14,8 +14,6 @@
 .include "telagameover.data"
 #menu:
 .include "menu10.data"
-.include "menu_gauntlet.data"
-.include "menu_gauntlet_2.data"
 .include "selecao_personagens.data"
 
 #monitor_chiado

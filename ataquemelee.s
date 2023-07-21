@@ -1,3 +1,12 @@
+.data
+
+NUM_ataque_ram: .word 2
+NOTAS_ataque_ram: 85,50,85,50
+
+NUM_ataque_maquina: .word 2
+NOTAS_ataque_maquina: 85,50,85,50
+
+.text
 SELECMELEE:
 	li t1, '1'
 	bne t0, t1, urubu1        #manda o programa para os checks do babbage
@@ -89,7 +98,23 @@ continue_melee1:
 	la a0,tile
 	li a3,0
 	call print
-	
+EFECT_ataque_ram1:	la s4,NUM_ataque_ram
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_ram		
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_ram1:	beq s6,s5, FIM_ataque_ram1
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_ram1:		
 	j GAME_LOOP
 		
 CHECKBAIXOLAMAR:
@@ -145,7 +170,23 @@ continue_melee2:
 	la a0,tile
 	li a3,0
 	call print
-	
+EFECT_ataque_ram2:	la s4,NUM_ataque_ram
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_ram	
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_ram2:	beq s6,s5, FIM_ataque_ram2
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_ram2:	
 	j GAME_LOOP
 		
 CHECKLEFTLAMAR:
@@ -202,6 +243,23 @@ continue_melee3:
 	la a0,tile
 	li a3,0
 	call print
+EFECT_ataque_ram3:	la s4,NUM_ataque_ram
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_ram
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_ram3:	beq s6,s5, FIM_ataque_ram3
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_ram3:	
 	
 	j GAME_LOOP
  	
@@ -258,7 +316,23 @@ continue_melee4:
 	la a0,tile
 	li a3,0
 	call print
-	
+EFECT_ataque_ram4:	la s4,NUM_ataque_ram
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_ram		
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_ram4:	beq s6,s5, FIM_ataque_ram4
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_ram4:	
 	j GAME_LOOP
 	
 ########
@@ -720,7 +794,23 @@ continue_melee5:
 	la a0,tile
 	li a3,0
 	call print
- 
+EFECT_ataque_maquina1:	la s4,NUM_ataque_maquina
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_maquina		
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_maquina1:	beq s6,s5, FIM_ataque_maquina1
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_maquina1: 
 	j GAME_LOOP
 BAIXOBAB:
 	la t0,CHAR_POS
@@ -865,7 +955,23 @@ continue_melee6:
 	la a0,tile
 	li a3,0
 	call print
-	
+EFECT_ataque_maquina2:	la s4,NUM_ataque_maquina
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_maquina		
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_maquina2:	beq s6,s5, FIM_ataque_maquina2
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_maquina2:	
 	j GAME_LOOP
 LEFTBAB:
 	la t0,CHAR_POS
@@ -1021,7 +1127,23 @@ continue_melee7:
 	la a0,tile
 	li a3,0
 	call print
-	
+EFECT_ataque_maquina3:	la s4,NUM_ataque_maquina
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_maquina		
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_maquina3:	beq s6,s5, FIM_ataque_maquina3
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_maquina3:	
  	j GAME_LOOP
 RIGHTBAB:
 	la t0,CHAR_POS
@@ -1175,5 +1297,21 @@ continue_melee8:
 	la a0,tile
 	li a3,0
 	call print
-	
+EFECT_ataque_maquina4:	la s4,NUM_ataque_maquina
+			lw s5,0(s4)		
+			la s4,NOTAS_ataque_maquina		
+			li s6,0			
+			li a2,80		
+			li a3,112
+LOOP_ataque_maquina4:	beq s6,s5, FIM_ataque_maquina4
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+FIM_ataque_maquina4:	
 	j GAME_LOOP		
