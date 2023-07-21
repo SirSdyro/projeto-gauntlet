@@ -1,12 +1,22 @@
 .include "MACROSv21.s"
 
 .data
+#descrição personagens
+.include "ada_descricao.data"
+.include "babbage_descricao.data"
+.include "turing_descricao.data"
+.include "lamar_descricao.data"
+
+#tela instruções de gameplay
+.include "telaINSTRUCOES.data"
+
 #tela game over
 .include "telagameover.data"
-menu:
+#menu:
 .include "menu10.data"
 .include "menu_gauntlet.data"
 .include "menu_gauntlet_2.data"
+.include "selecao_personagens.data"
 
 #monitor_chiado
 .include "monitorchiado1.data"
@@ -139,16 +149,16 @@ LEVEL:		.word 1
 
 #EFEITOS SONOROS
 NUM_sair_menu: .word 6
-NOTAS_sair_menu: 74,200,74,200,71,200,67,200,64,200,60,1100
+NOTAS_sair_menu: 74,100,74,100,71,100,67,100,64,100,60,1700
 
-NUM_controles:.word 2
-NOTAS_controles: 71,200,74,1100
+NUM_controles:.word 3
+NOTAS_controles: 71,130,71,130,74,350
 
 NUM_select: .word 6
 NOTAS_select: 60,200,60,200,64,200,67,200,71,200,74,1100
 
 NUM_game_over: .word 6
-NOTAS_game_over: 74,200,74,200,71,200,67,200,64,200,60,
+NOTAS_game_over: 74,200,74,200,71,200,67,200,64,200,60,2000
 
 NUM_tomar_dano1: .word 3
 NOTAS_tomar_dano1: 50,64,50,60,50,60
@@ -157,13 +167,13 @@ NUM_tomar_dano2: .word 3
 NOTAS_tomar_dano2: 50,64,50,60,50,60
 
 NUM_pegar_hd: .word 3
-NOTAS_pegar_hd: 90,100,90,100
+NOTAS_pegar_hd: 71,100,80,130
 
 NUM_pegar_pendrive: .word 3
 NOTAS_pegar_pendrive: 90,100,90,100
 
 NUM_pegar_chave: .word 3
-NOTAS_pegar_chave: 90,100,90,100
+NOTAS_pegar_chave: 71,100,80,130
 
 .text
 #OBSERVAÇÕES:
@@ -231,252 +241,8 @@ RESTART:
 	la t0,TEMPO_COOLDOWN
 	sw zero,0(t0)	
 MENU:
-	la a0, menu10			# Carrega o endereço do menu para printá-lo apenas no frame 0
-	li a1,0				# x = 0
-	li a2,0				# y = 0
-	li a3,0				# frame = 0
-	call print			# imprime o sprite
-	
-	call KEY1
-	
-KEY1: 	
-	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
-LOOP: 	lw t0,0(t1)			# Le bit de Controle Teclado
-   	andi t0,t0,0x0001		# mascara o bit menos significativo
-   	beq t0,zero,LOOP		# não tem tecla pressionada então volta ao loop
-   	lw t2,4(t1)			# le o valor da tecla
-  	sw t2,12(t1)  			# escreve a tecla pressionada no display
-  	
-  	li t0,'1'
-  	beq t2,t0,EFC_EFECT_select
-  	
-  	li t0,'2'
-  	beq t2,t0,EFC_EFECT_controles
-  	
-  	li t0,'3'
-  	beq t2,t0,EFECT_sair_menu
-  	j KEY1
-
-
-CONTROLES:
-	la a0, monitorchiado1
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado3
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado4
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado5
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles1
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-
-	
-			li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
-LOOP_CONTROLES: 	lw t0,0(t1)			# Le bit de Controle Teclado
-   			andi t0,t0,0x0001		# mascara o bit menos significativo
-   			beq t0,zero,LOOP_CONTROLES	# não tem tecla pressionada então volta ao loop
-   			lw t2,4(t1)			# le o valor da tecla
-  			sw t2,12(t1)  			# escreve a tecla pressionada no display
-  	
-  			li t0,'0'
-  			beq t2,t0,fim_controles
-  			
-  			j LOOP_CONTROLES
-fim_controles:
-	la a0, controles2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles3
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles4
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, controles5
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	j MENU     
-sair1: 	
-	li a7,10
-	ecall
-		
-########## 	
-SELECT:
-	la a0, monitorchiado1		# Carrega o endereço do menu de seleção de personagem para printar apenas no frame 0
-	li a1,0				# x = 0
-	li a2,0				# y = 0
-	li a3,0				# frame = 0
-	call print			# imprime o sprite
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado3
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado4
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, monitorchiado5
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	li a7,32
-	li a0,200
-	ecall
-	la a0, menu_gauntlet_2
-	li a1,0				
-	li a2,0				
-	li a3,0				
-	call print			
-	li a3,1				
-	call print
-	
-	call KEY1_2
-	
-KEY1_2: 	
-	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
-LOOP_2: lw t0,0(t1)			# Le bit de Controle Teclado
-   	andi t0,t0,0x0001		# mascara o bit menos significativo
-   	beq t0,zero,LOOP_2		# não tem tecla pressionada então volta ao loop
-   	lw t2,4(t1)			# le o valor da tecla
-  	sw t2,12(t1)  			# escreve a tecla pressionada no display
-  	
-  	li t0,'1'
-  	beq t2,t0,CHAR_1
- 
-  	li t0,'2'
-  	beq t2,t0,CHAR_2
-  	 	
-  	li t0,'3'
-  	beq t2,t0,CHAR_3
-  	
-  	li t0,'4'
-  	beq t2,t0,CHAR_4
-  	  	
- 	ret				# retorna
-# Os processos seguintes alteram o valor CHAR_SELECT para definir qual personagem deve ter seus sprites printados 	  	 
-CHAR_1:
-	li t0,'1'
-	la t1,CHAR_SELECT
-	sw t0,0(t1)
-	j SETUP
-CHAR_2:
-	li t0,'2'
-	la t1,CHAR_SELECT
-	sw t0,0(t1)
-	j SETUP	
-CHAR_3:
-	li t0,'3'
-	la t1,CHAR_SELECT
-	sw t0,0(t1)
-	j SETUP	
-CHAR_4:
-	li t0,'4'
-	la t1,CHAR_SELECT
-	sw t0,0(t1)
-	j SETUP	
+	call menu
+	.include "menu.s"
 ##########
 ##########	
 SETUP:	

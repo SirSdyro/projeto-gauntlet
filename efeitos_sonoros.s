@@ -4,7 +4,7 @@ EFECT_sair_menu:	la s4,NUM_sair_menu
 			lw s5,0(s4)		
 			la s4,NOTAS_sair_menu		
 			li s6,0			
-			li a6,80		
+			li a2,97		
 			li a3,112
 LOOP_sair_menu:		beq s6,s5, FIM_sair_menu
 			lw a0,0(s4)		
@@ -24,7 +24,7 @@ EFC_EFECT_controles:	la s4,NUM_controles
 			lw s5,0(s4)		
 			la s4,NOTAS_controles		
 			li s6,0			
-			li a6,80		
+			li a2,86		
 			li a3,112
 EFC_LOOP_controles:	beq s6,s5, EFC_FIM_controles
 			lw a0,0(s4)		
@@ -44,7 +44,7 @@ EFC_EFECT_select:	la s4,NUM_select
 			lw s5,0(s4)		
 			la s4,NOTAS_select		
 			li s6,0			
-			li a6,80		
+			li a2,97		
 			li a3,112
 EFC_LOOP_select:	beq s6,s5, EFC_FIM_select
 			lw a0,0(s4)		
@@ -58,12 +58,13 @@ EFC_LOOP_select:	beq s6,s5, EFC_FIM_select
 			addi s6,s6,1		
 			j EFC_LOOP_select				
 EFC_FIM_select:		j SELECT
+
 ##===== Efeito tomar dano1 =====##
 EFC_EFECT_tomar_dano1:	la s4,NUM_tomar_dano1
 			lw s5,0(s4)		
 			la s4,NOTAS_tomar_dano1	
 			li s6,0			
-			li a6,80		
+			li a2,80		
 			li a3,112
 EFC_LOOP_tomar_dano1:	beq s6,s5, EFC_FIM_tomar_dano1
 			lw a0,0(s4)		
@@ -83,7 +84,7 @@ EFC_EFECT_tomar_dano2:	la s4,NUM_tomar_dano2
 			lw s5,0(s4)		
 			la s4,NOTAS_tomar_dano2
 			li s6,0			
-			li a6,80		
+			li a2,80		
 			li a3,112
 EFC_LOOP_tomar_dano2:	beq s6,s5, EFC_FIM_tomar_dano2
 			lw a0,0(s4)		
@@ -103,7 +104,7 @@ EFC_EFECT_pegar_hd:	la s4,NUM_pegar_hd
 			lw s5,0(s4)		
 			la s4,NOTAS_pegar_hd
 			li s6,0			
-			li a6,90		
+			li a2,108		
 			li a3,112
 EFC_LOOP_pegar_hd:	beq s6,s5, EFC_FIM_pegar_hd
 			lw a0,0(s4)		
@@ -123,7 +124,7 @@ EFECT_pegar_chave: 	la s4,NUM_pegar_chave
 			lw s5,0(s4)		
 			la s4,NOTAS_pegar_chave
 			li s6,0			
-			li a6,90		
+			li a2,112		
 			li a3,112
 EFC_LOOP_pegar_chave:	beq s6,s5, EFC_FIM_pegar_chave
 			lw a0,0(s4)		
@@ -143,7 +144,7 @@ EFECT_pegar_pendrive:	la s4,NUM_pegar_pendrive
 			lw s5,0(s4)		
 			la s4,NOTAS_pegar_pendrive
 			li s6,0			
-			li a6,90		
+			li a2,90		
 			li a3,112
 LOOP_pegar_pendrive:beq s6,s5, FIM_pegar_pendrive
 			lw a0,0(s4)		
@@ -163,7 +164,7 @@ EFC_EFECT_game_over: 	la s4,NUM_game_over
 			lw s5,0(s4)		
 			la s4,NOTAS_game_over		
 			li s6,0			
-			li a6,80		
+			li a2,86		
 			li a3,112
 EFC_LOOP_game_over:	beq s6,s5, EFC_FIM_game_over
 			lw a0,0(s4)		

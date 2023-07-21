@@ -33,7 +33,12 @@ CHAR_POS:	.half 8,8			# x, y
 	li a2,0				# y = 0
 	li a3,1			# frame = 0
 	call print			# imprime o sprite
-	
+	li a7,101			# Printa o numero do tempo na tela
+	li a0,1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall
 
 
 li t0,0xFF000000

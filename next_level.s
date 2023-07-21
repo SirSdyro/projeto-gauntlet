@@ -1,5 +1,34 @@
+.data
+
+NUM_avancar_fase: .word 10
+NOTAS_avancar_fase: 81,448, 69,448, 69,149, 69,74, 69,74, 69,149, 69,149, 72,149, 75,149, 80,300
+
+.text
+
+##===== Efeito passar de fase =====##
+EFECT_avancar_fase:	la s4,NUM_avancar_fase
+			lw s5,0(s4)		
+			la s4,NOTAS_avancar_fase
+			li s6,0			
+			li a2,55		
+			li a3,112
+LOOP_avancar_fase:	beq s6,s5, FIM_avancar_fase
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j LOOP_avancar_fase				
+FIM_avancar_fase:	j cnt_pf
+
 next_level:
+	j EFECT_avancar_fase
 #passando para a próxima fase
+cnt_pf:	
 	la t0,SAIDA_POS
 	la a0,escotilha_aberta		# carrega o endereco do sprite 'char' em a0
 	lh a1,0(t0)			# carrega a posicao x do personagem em a1
