@@ -67,9 +67,12 @@ CHECK_LEFT:
 	
 	addi t4,t4,-1
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
+	li t5,0xfffffff8		# Checa para ver se é azul/parede
+	beq t5,t4,ENEMY_3_DANO1
+mov3_aux1:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	beq t5,t4,CHECK_RIGHT
-	
+		
 	la t0,ENEMY_3_DIRECT
 	li t1,1
 	sw t1,0(t0)
@@ -118,9 +121,12 @@ CHECK_RIGHT:
 	
 	addi t4,t4,16
 	lb t4,0(t4)			# Carrega um byte do para saber a cor do pixel
+	li t5,0xfffffff8		# Checa para ver se é azul/parede
+	beq t5,t4,ENEMY_3_DANO2
+mov3_aux2:
 	li t5,0xffffffC8		# Checa para ver se é azul/parede
 	beq t5,t4,CHECK_LEFT
-	
+
 	la t0,ENEMY_3_DIRECT
 	li t1,2
 	sw t1,0(t0)
@@ -156,3 +162,32 @@ CHECK_RIGHT:
 	
 	j game_loop1
 	
+ENEMY_3_DANO1:
+	la t0,TEMPO			# Carrega o valor do tempo atual
+	lw t1,0(t0)
+	addi t1,t1,-10			# Decrementa 10 de dano
+	sw t1,0(t0)			# Atualiza o valor do tempo
+	la t0,TEMPO
+	lb t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall	
+	j mov3_aux1
+	
+ENEMY_3_DANO2:
+	la t0,TEMPO			# Carrega o valor do tempo atual
+	lw t1,0(t0)
+	addi t1,t1,-10			# Decrementa 10 de dano
+	sw t1,0(t0)			# Atualiza o valor do tempo
+	la t0,TEMPO
+	lb t1,0(t0)
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,56
+	li a3,0x37
+	ecall	
+	j mov3_aux2		

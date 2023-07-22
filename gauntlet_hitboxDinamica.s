@@ -2,115 +2,130 @@
 
 .data
 #descrição personagens
-.include "ada_descricao.data"
-.include "babbage_descricao.data"
-.include "turing_descricao.data"
-.include "lamar_descricao.data"
+.include "imagens/ada_descricao.data"
+.include "imagens/babbage_descricao.data"
+.include "imagens/turing_descricao.data"
+.include "imagens/lamar_descricao.data"
 
 #tela instruções de gameplay
-.include "instrucoes_menu.data"
-.include "instrucoes2_menu.data"
+.include "imagens/instrucoes_menu.data"
+.include "imagens/instrucoes2_menu.data"
 
 #tela game over
-.include "telagameover.data"
+.include "imagens/telagameover.data"
 #menu:
-.include "menu10.data"
-.include "selecao_personagens.data"
+.include "imagens/menu10.data"
+.include "imagens/selecao_personagens.data"
 
 #monitor_chiado
-.include "monitorchiado1.data"
-.include "monitorchiado2.data"
-.include "monitorchiado3.data"
-.include "monitorchiado4.data"
-.include "monitorchiado5.data"
+.include "imagens/monitorchiado1.data"
+.include "imagens/monitorchiado2.data"
+.include "imagens/monitorchiado3.data"
+.include "imagens/monitorchiado4.data"
+.include "imagens/monitorchiado5.data"
 
 #controles
-.include "controles1.data"
-.include "controles2.data"
-.include "controles3.data"
-.include "controles4.data"
-.include "controles5.data"
+.include "imagens/controles1.data"
+.include "imagens/controles2.data"
+.include "imagens/controles3.data"
+.include "imagens/controles4.data"
+.include "imagens/controles5.data"
 
 #teladesce
-.include "teladesce1.data"
-.include "teladesce2.data"
-.include "teladesce3.data"
-.include "teladesce4.data"
-.include "teladesce5.data"
+.include "imagens/teladesce1.data"
+.include "imagens/teladesce2.data"
+.include "imagens/teladesce3.data"
+.include "imagens/teladesce4.data"
+.include "imagens/teladesce5.data"
 
 mapa_e_hitbox:
-.include "mapa1_teste.data"
-.include "hitbox_mapateste2.data"
-.include "hitboxfase1.data"
-.include "hitboxfase2.data"
-.include "hitboxfase3.data"
-.include "GauntletRoom001MapBG.data"
-.include "escotilha_aberta.data"
-.include "tile.data"
-.include "tile1.data"
-.include "tile2.data"
-.include "tile_hitbox_char.data"
-.include "tile_hitbox_enemy.data"
-.include "tile_hitbox_enemy2.data"
-.include "tile_hitbox_enemy2_2.data"
-.include "tile_hitbox_enemy3.data"
-.include "tile_hitbox_enemy3_2.data"
-.include "tile_hitbox_enemy3proj.data"
-.include "tile_hitbox_enemy3proj_2.data"
-.include "tile_hitbox_item1.data"
-.include "hd.data"
-.include "tile_hitbox_item2.data"
-.include "pendrive.data"
+.include "imagens/mapa1_teste.data"
+.include "imagens/hitbox_mapateste2.data"
+.include "imagens/hitboxfase1.data"
+.include "imagens/hitboxfase2.data"
+.include "imagens/hitboxfase3.data"
+.include "imagens/escotilha_aberta.data"
+.include "imagens/tile.data"
+.include "imagens/tile1.data"
+.include "imagens/tile2.data"
+.include "imagens/tile_hitbox_char.data"
+.include "imagens/tile_hitbox_enemy.data"
+.include "imagens/tile_hitbox_enemy2.data"
+.include "imagens/tile_hitbox_enemy2_2.data"
+.include "imagens/tile_hitbox_enemy3.data"
+.include "imagens/tile_hitbox_enemy3_2.data"
+.include "imagens/tile_hitbox_enemy3proj.data"
+.include "imagens/tile_hitbox_enemy3proj_2.data"
+.include "imagens/tile_hitbox_item1.data"
+.include "imagens/hd.data"
+.include "imagens/tile_hitbox_item2.data"
+.include "imagens/pendrive.data"
 ##########
 ##########
 #PERSONAGENS#
 Lamar:
-.include "lamar_cima.data"
-.include "lamar_baixo.data"
-.include "lamar_direita.data"
-.include "lamar_esquerda.data"
-.include "memoria_ram_cima.data"
-.include "memoria_ram_baixo.data"
-.include "memoria_ram_left.data"
-.include "memoria_ram_right.data"
+.include "imagens/lamar_cima.data"
+.include "imagens/lamar_baixo.data"
+.include "imagens/lamar_direita.data"
+.include "imagens/lamar_esquerda.data"
+.include "imagens/memoria_ram_cima.data"
+.include "imagens/memoria_ram_baixo.data"
+.include "imagens/memoria_ram_left.data"
+.include "imagens/memoria_ram_right.data"
+.include "imagens/lamar_atk_cima.data"
+.include "imagens/lamar_atk_baixo.data"
+.include "imagens/lamar_atk_left.data"
+.include "imagens/lamar_atk_right.data"
 Ada:
-.include "ada_cima.data"
-.include "ada_baixo.data"
-.include "ada_direita.data"
-.include "ada_esquerda.data"
-.include "papel_perfurado_cima.data"
-.include "papel_perfurado_baixo.data"
-.include "papel_perfurado_left.data"
-.include "papel_perfurado_right.data"
+.include "imagens/ada_cima.data"
+.include "imagens/ada_baixo.data"
+.include "imagens/ada_direita.data"
+.include "imagens/ada_esquerda.data"
+.include "imagens/papel_perfurado_cima.data"
+.include "imagens/papel_perfurado_baixo.data"
+.include "imagens/papel_perfurado_left.data"
+.include "imagens/papel_perfurado_right.data"
+.include "imagens/ada_atk_cima.data"
+.include "imagens/ada_atk_baixo.data"
+.include "imagens/ada_atk_left.data"
+.include "imagens/ada_atk_right.data"
 Babbage:
-.include "babbage_cima.data"
-.include "babbage_baixo.data"
-.include "babbage_direita.data"
-.include "babbage_esquerda.data"
-.include "maquina_babbage.data"
+.include "imagens/babbage_cima.data"
+.include "imagens/babbage_baixo.data"
+.include "imagens/babbage_direita.data"
+.include "imagens/babbage_esquerda.data"
+.include "imagens/maquina_babbage.data"
+.include "imagens/babbage_atk_cima.data"
+.include "imagens/babbage_atk_baixo.data"
+.include "imagens/babbage_atk_left.data"
+.include "imagens/babbage_atk_right.data"
 Turing:
-.include "turing_cima.data"
-.include "turing_baixo.data"
-.include "turing_direita.data"
-.include "turing_esquerda.data"
-.include "bits_cima.data"
-.include "bits_down.data"
-.include "bits_left.data"
-.include "bits_right.data"
+.include "imagens/turing_cima.data"
+.include "imagens/turing_baixo.data"
+.include "imagens/turing_direita.data"
+.include "imagens/turing_esquerda.data"
+.include "imagens/bits_cima.data"
+.include "imagens/bits_down.data"
+.include "imagens/bits_left.data"
+.include "imagens/bits_right.data"
+.include "imagens/turing_atk_cima.data"
+.include "imagens/turing_atk_baixo.data"
+.include "imagens/turing_atk_left.data"
+.include "imagens/turing_atk_right.data"
 ##########
 ##########
 #INIMIGOS#
 CapacitorParasita:
-.include "capacitor_parasita.data"
-.include "descarga_capacitor.data"
+.include "imagens/capacitor_parasita.data"
+.include "imagens/descarga_capacitor.data"
 Moto:
-.include "moto_cima.data"
-.include "moto_baixo.data"
-.include "moto_esquerda.data"
-.include "moto_direita.data"
+.include "imagens/moto_cima.data"
+.include "imagens/moto_baixo.data"
+.include "imagens/moto_esquerda.data"
+.include "imagens/moto_direita.data"
 Projetor:
-.include "projetor.data"
-.include "projetor_tiro.data"
+.include "imagens/projetor.data"
+.include "imagens/projetor_tiro.data"
 
 CHAR_SELECT:	.word 0				# define o personagem selecionado
 CHAR_POS:	.half 216,8			# x, y
@@ -266,12 +281,7 @@ segundo:
 	li a2,56
 	li a3,0x37
 	ecall
-	bne t1,zero,babooey1
-	j EFC_EFECT_game_over
-babooey1:
-	bge t1,zero,babooey2
-	j EFC_EFECT_game_over
-babooey2:	
+	
 #tempo_ataque_inimigo:
 	la t0,TEMPO_ATK			# Carrega o valor do tempo de ataque do inimigo
 	lw t1,0(t0)			
@@ -318,6 +328,16 @@ key_aux4:
 key_aux5:
 
 NEXTLEVEL:
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la a0,tile1
+	li a3,1
+	call print
+
 	call next_level	
 	.include "next_level.s"
 UPLIFE:
@@ -416,6 +436,14 @@ continue_pegar_chave:
 GAME_LOOP:
 #Após as alterações feitas para acomodar a hitbox dinâmica, o game loop está vazio e , acredito eu, poderemos
 #usá-lo para fazer o tempo, inimigos e outros processos que devem ocorrer sem o input do jogador
+	la t0,TEMPO
+	lb t1,0(t0)
+	bne t1,zero,babooey1
+	j EFC_EFECT_game_over
+babooey1:
+	bge t1,zero,babooey2
+	j EFC_EFECT_game_over
+babooey2:
 
 contador:
 # Serve para definir quando passou aproximadamente 1 segundo

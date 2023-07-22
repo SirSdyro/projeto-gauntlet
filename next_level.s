@@ -4,7 +4,6 @@ NUM_avancar_fase: .word 10
 NOTAS_avancar_fase: 81,448, 69,448, 69,149, 69,74, 69,74, 69,149, 69,149, 72,149, 75,149, 80,300
 
 .text
-
 ##===== Efeito passar de fase =====##
 EFECT_avancar_fase:	la s4,NUM_avancar_fase
 			lw s5,0(s4)		
@@ -29,13 +28,7 @@ next_level:
 	j EFECT_avancar_fase
 #passando para a próxima fase
 cnt_pf:	
-	la t0,SAIDA_POS
-	la a0,escotilha_aberta		# carrega o endereco do sprite 'char' em a0
-	lh a1,0(t0)			# carrega a posicao x do personagem em a1
-	lh a2,2(t0)			# carrega a posicao y do personagem em a2
-	li a3,0				# carrega o valor do frame em a3
-	call print
-	
+#limpando o personagem	
 	la t0, LEVEL                    #Soma-se um ao valor que representa o level onde o player se encontra
 	lw t1, 0(t0)
 	addi t1, t1, 1                  #isso aqui fico logo embaixo do incrementador do mapa

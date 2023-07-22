@@ -87,6 +87,18 @@ CIMA:
 	li t5,0xffffffcd
 	beq t4,t5,PROJ_RESET
 ########	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,ada_atk_cima
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 	
 	la t0,POS_PROJ
 	la a0,papel_perfurado_cima
@@ -97,6 +109,19 @@ CIMA:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_ada1:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
@@ -152,6 +177,19 @@ BAIXO:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,ada_atk_baixo
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,papel_perfurado_baixo
 	lh a1,0(t0)
@@ -161,6 +199,19 @@ BAIXO:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_ada2:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
@@ -217,6 +268,19 @@ LEFT:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,ada_atk_left
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,papel_perfurado_left
 	lh a1,0(t0)
@@ -226,6 +290,19 @@ LEFT:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_ada3:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
@@ -282,6 +359,19 @@ RIGHT:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,ada_atk_right
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,papel_perfurado_right
 	lh a1,0(t0)
@@ -291,6 +381,19 @@ RIGHT:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_ada4:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
@@ -393,6 +496,19 @@ CIMA2:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,turing_atk_cima
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,bits_cima
 	lh a1,0(t0)
@@ -402,6 +518,19 @@ CIMA2:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_alan1:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
@@ -457,6 +586,19 @@ BAIXO2:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,turing_atk_baixo
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,bits_down
 	lh a1,0(t0)
@@ -466,6 +608,19 @@ BAIXO2:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_alan2:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
@@ -522,6 +677,19 @@ LEFT2:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,turing_atk_left
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,bits_left
 	lh a1,0(t0)
@@ -531,6 +699,19 @@ LEFT2:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_alan3:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
@@ -587,6 +768,19 @@ RIGHT2:
 	beq t4,t5,PROJ_RESET
 ########	
 	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,turing_atk_right
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 	la t0,POS_PROJ
 	la a0,bits_right
 	lh a1,0(t0)
@@ -596,6 +790,19 @@ RIGHT2:
 	li a7,32
 	li a0,50
 	ecall
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
 EFECT_ataque_alan4:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		

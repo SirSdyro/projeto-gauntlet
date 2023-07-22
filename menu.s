@@ -373,7 +373,7 @@ loop_ALAN:	lw t0,0(t1)			# Le bit de Controle Teclado
   
 # Os processos seguintes alteram o valor CHAR_SELECT para definir qual personagem deve ter seus sprites printados
 instrucoes_gameplay:
-	 	la a0, telaINSTRUCOES
+	 	la a0, instrucoes_menu
 		li a1,0				
 		li a2,0				
 		li a3,0				
@@ -390,9 +390,31 @@ loop_instrucoes:
   		sw t2,12(t1)  			# escreve a tecla pressionada no display
   	
   		li t0,'1'
-  		beq t2,t0,cnt_instrucoes
+  		beq t2,t0,instrucoes_gameplay_2
   		
   		j loop_instrucoes 
+#vai para o CHAR de acordo com o valor em s7
+instrucoes_gameplay_2:
+	 	la a0, instrucoes2_menu
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print			
+		li a3,1				
+		call print
+loop_INSTRUCOES2: 	
+		li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
+loop_instrucoes2:	
+		lw t0,0(t1)			# Le bit de Controle Teclado
+   		andi t0,t0,0x0001		# mascara o bit menos significativo
+   		beq t0,zero,loop_instrucoes2	# não tem tecla pressionada então volta ao loop
+   		lw t2,4(t1)			# le o valor da tecla
+  		sw t2,12(t1)  			# escreve a tecla pressionada no display
+  	
+  		li t0,'1'
+  		beq t2,t0,cnt_instrucoes
+  		
+  		j loop_instrucoes2 
 #vai para o CHAR de acordo com o valor em s7
 cnt_instrucoes:
 		li t0,1

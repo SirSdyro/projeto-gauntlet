@@ -85,7 +85,20 @@ urubu4_2:
 	j PROJETOR_KILL_MELEE
 urubu5:	
 ########
-continue_melee1:	
+continue_melee1:
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,lamar_atk_cima
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,memoria_ram_cima
 	lh a1,0(t0)
@@ -98,6 +111,20 @@ continue_melee1:
 	la a0,tile
 	li a3,0
 	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	
 EFECT_ataque_ram1:	la s4,NUM_ataque_ram
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ram		
@@ -158,6 +185,19 @@ urubu7_2:
 urubu8:	
 ########
 continue_melee2:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,lamar_atk_baixo
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,memoria_ram_baixo
 	lh a1,0(t0)
@@ -168,6 +208,19 @@ continue_melee2:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_ram2:	la s4,NUM_ataque_ram
@@ -231,6 +284,19 @@ urubu10_2:
 urubu11:	
 ########	
 continue_melee3:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,lamar_atk_left
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,memoria_ram_left
 	lh a1,0(t0)
@@ -241,6 +307,19 @@ continue_melee3:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_ram3:	la s4,NUM_ataque_ram
@@ -304,6 +383,19 @@ urubu13_2:
 urubu14:	
 ########	
 continue_melee4:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,lamar_atk_right
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,memoria_ram_right
 	lh a1,0(t0)
@@ -314,6 +406,19 @@ continue_melee4:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_ram4:	la s4,NUM_ataque_ram
@@ -782,6 +887,19 @@ urubu28_2:
 urubu29:
 ########
 continue_melee5:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,babbage_atk_cima
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,maquina_babbage
 	lh a1,0(t0)
@@ -792,6 +910,19 @@ continue_melee5:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_maquina1:	la s4,NUM_ataque_maquina
@@ -943,6 +1074,19 @@ urubu43_2:
 urubu44:			
 ########
 continue_melee6:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,babbage_atk_baixo
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,maquina_babbage
 	lh a1,0(t0)
@@ -953,6 +1097,19 @@ continue_melee6:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_maquina2:	la s4,NUM_ataque_maquina
@@ -1115,6 +1272,19 @@ urubu59:
 
 ########	
 continue_melee7:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,babbage_atk_left
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,maquina_babbage
 	lh a1,0(t0)
@@ -1125,6 +1295,19 @@ continue_melee7:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_maquina3:	la s4,NUM_ataque_maquina
@@ -1285,6 +1468,19 @@ urubu73_2:
 urubu74:
 ########	
 continue_melee8:	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	la a0,babbage_atk_right
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+		
 	la t0,POS_MELEE
 	la a0,maquina_babbage
 	lh a1,0(t0)
@@ -1295,6 +1491,19 @@ continue_melee8:
 	li a0,150
 	ecall
 	la a0,tile
+	li a3,0
+	call print
+	
+	la t0,CHAR_POS
+	la a0,tile
+	lh a1,0(t0)
+	lh a2,2(t0)
+	li a3,0
+	call print
+	la t0,CHAR_POS
+	mv a0,s3
+	lh a1,0(t0)
+	lh a2,2(t0)
 	li a3,0
 	call print
 EFECT_ataque_maquina4:	la s4,NUM_ataque_maquina
