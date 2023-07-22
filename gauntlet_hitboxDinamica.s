@@ -8,7 +8,8 @@
 .include "lamar_descricao.data"
 
 #tela instruções de gameplay
-.include "telaINSTRUCOES.data"
+.include "instrucoes_menu.data"
+.include "instrucoes2_menu.data"
 
 #tela game over
 .include "telagameover.data"
