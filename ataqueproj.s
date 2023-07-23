@@ -1,9 +1,9 @@
 .data
 NUM_ataque_ada: .word 2
-NOTAS_ataque_ada: 85,50,85,50
+NOTAS_ataque_ada: 71,100,78,100
 
-NUM_ataque_alan: .word 2
-NOTAS_ataque_alan: 85,50,85,50
+NUM_ataque_alan: .word 4
+NOTAS_ataque_alan: 71,50,65,50,71,50,65,50
 
 .text
 SELECPROJ:
@@ -126,7 +126,7 @@ EFECT_ataque_ada1:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
 			li s6,0			
-			li a2,80		
+			li a2,83		
 			li a3,112
 LOOP_ataque_ada1:	beq s6,s5, FIM_ataque_ada1
 			lw a0,0(s4)		
@@ -137,7 +137,8 @@ LOOP_ataque_ada1:	beq s6,s5, FIM_ataque_ada1
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ada1		
 FIM_ataque_ada1:	
 	j GAME_LOOP
 BAIXO:
@@ -216,7 +217,7 @@ EFECT_ataque_ada2:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
 			li s6,0			
-			li a2,80		
+			li a2,83		
 			li a3,112
 LOOP_ataque_ada2:	beq s6,s5, FIM_ataque_ada2
 			lw a0,0(s4)		
@@ -227,7 +228,8 @@ LOOP_ataque_ada2:	beq s6,s5, FIM_ataque_ada2
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ada1		
 FIM_ataque_ada2:		
 	j GAME_LOOP
 LEFT:
@@ -307,7 +309,7 @@ EFECT_ataque_ada3:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
 			li s6,0			
-			li a2,80		
+			li a2,83		
 			li a3,112
 LOOP_ataque_ada3:	beq s6,s5, FIM_ataque_ada3
 			lw a0,0(s4)		
@@ -318,7 +320,8 @@ LOOP_ataque_ada3:	beq s6,s5, FIM_ataque_ada3
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ada3		
 FIM_ataque_ada3:	
 	j GAME_LOOP	
 RIGHT:
@@ -398,7 +401,7 @@ EFECT_ataque_ada4:	la s4,NUM_ataque_ada
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ada		
 			li s6,0			
-			li a2,80		
+			li a2,83		
 			li a3,112
 LOOP_ataque_ada4:	beq s6,s5, FIM_ataque_ada4
 			lw a0,0(s4)		
@@ -409,7 +412,8 @@ LOOP_ataque_ada4:	beq s6,s5, FIM_ataque_ada4
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ada4		
 FIM_ataque_ada4:	
 	j GAME_LOOP		
 ##########
@@ -535,7 +539,7 @@ EFECT_ataque_alan1:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
 			li s6,0			
-			li a2,80		
+			li a2,124		
 			li a3,112
 LOOP_ataque_alan1:	beq s6,s5, FIM_ataque_alan1
 			lw a0,0(s4)		
@@ -546,7 +550,8 @@ LOOP_ataque_alan1:	beq s6,s5, FIM_ataque_alan1
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_alan1		
 FIM_ataque_alan1:	
 	j GAME_LOOP
 BAIXO2:
@@ -625,7 +630,7 @@ EFECT_ataque_alan2:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
 			li s6,0			
-			li a2,80		
+			li a2,124		
 			li a3,112
 LOOP_ataque_alan2:	beq s6,s5, FIM_ataque_alan2
 			lw a0,0(s4)		
@@ -636,7 +641,8 @@ LOOP_ataque_alan2:	beq s6,s5, FIM_ataque_alan2
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_alan2		
 FIM_ataque_alan2:		
 	j GAME_LOOP
 LEFT2:
@@ -716,7 +722,7 @@ EFECT_ataque_alan3:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
 			li s6,0			
-			li a2,80		
+			li a2,124		
 			li a3,112
 LOOP_ataque_alan3:	beq s6,s5, FIM_ataque_alan3
 			lw a0,0(s4)		
@@ -727,7 +733,8 @@ LOOP_ataque_alan3:	beq s6,s5, FIM_ataque_alan3
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_alan3		
 FIM_ataque_alan3:	
 	j GAME_LOOP	
 RIGHT2:
@@ -807,7 +814,7 @@ EFECT_ataque_alan4:	la s4,NUM_ataque_alan
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_alan		
 			li s6,0			
-			li a2,80		
+			li a2,124		
 			li a3,112
 LOOP_ataque_alan4:	beq s6,s5, FIM_ataque_alan4
 			lw a0,0(s4)		
@@ -818,6 +825,7 @@ LOOP_ataque_alan4:	beq s6,s5, FIM_ataque_alan4
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_alan4		
 FIM_ataque_alan4:	
 	j GAME_LOOP			

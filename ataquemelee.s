@@ -1,10 +1,10 @@
 .data
 
 NUM_ataque_ram: .word 2
-NOTAS_ataque_ram: 85,50,85,50
+NOTAS_ataque_ram: 71,100,73,100
 
 NUM_ataque_maquina: .word 2
-NOTAS_ataque_maquina: 85,50,85,50
+NOTAS_ataque_maquina: 30,100,40,100
 
 .text
 SELECMELEE:
@@ -129,7 +129,7 @@ EFECT_ataque_ram1:	la s4,NUM_ataque_ram
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ram		
 			li s6,0			
-			li a2,80		
+			li a2,127		
 			li a3,112
 LOOP_ataque_ram1:	beq s6,s5, FIM_ataque_ram1
 			lw a0,0(s4)		
@@ -140,7 +140,8 @@ LOOP_ataque_ram1:	beq s6,s5, FIM_ataque_ram1
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ram1		
 FIM_ataque_ram1:		
 	j GAME_LOOP
 		
@@ -227,7 +228,7 @@ EFECT_ataque_ram2:	la s4,NUM_ataque_ram
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ram	
 			li s6,0			
-			li a2,80		
+			li a2,127		
 			li a3,112
 LOOP_ataque_ram2:	beq s6,s5, FIM_ataque_ram2
 			lw a0,0(s4)		
@@ -238,8 +239,9 @@ LOOP_ataque_ram2:	beq s6,s5, FIM_ataque_ram2
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
-FIM_ataque_ram2:	
+			addi s6,s6,1
+			j LOOP_ataque_ram2	
+FIM_ataque_ram2:		
 	j GAME_LOOP
 		
 CHECKLEFTLAMAR:
@@ -326,7 +328,7 @@ EFECT_ataque_ram3:	la s4,NUM_ataque_ram
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ram
 			li s6,0			
-			li a2,80		
+			li a2,127		
 			li a3,112
 LOOP_ataque_ram3:	beq s6,s5, FIM_ataque_ram3
 			lw a0,0(s4)		
@@ -337,7 +339,8 @@ LOOP_ataque_ram3:	beq s6,s5, FIM_ataque_ram3
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ram3		
 FIM_ataque_ram3:	
 	
 	j GAME_LOOP
@@ -425,7 +428,7 @@ EFECT_ataque_ram4:	la s4,NUM_ataque_ram
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_ram		
 			li s6,0			
-			li a2,80		
+			li a2,127		
 			li a3,112
 LOOP_ataque_ram4:	beq s6,s5, FIM_ataque_ram4
 			lw a0,0(s4)		
@@ -436,7 +439,8 @@ LOOP_ataque_ram4:	beq s6,s5, FIM_ataque_ram4
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_ram4		
 FIM_ataque_ram4:	
 	j GAME_LOOP
 	
@@ -929,8 +933,8 @@ EFECT_ataque_maquina1:	la s4,NUM_ataque_maquina
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_maquina		
 			li s6,0			
-			li a2,80		
-			li a3,112
+			li a2,127		
+			li a3,500
 LOOP_ataque_maquina1:	beq s6,s5, FIM_ataque_maquina1
 			lw a0,0(s4)		
 			lw a1,4(s4)		
@@ -940,7 +944,8 @@ LOOP_ataque_maquina1:	beq s6,s5, FIM_ataque_maquina1
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_maquina1		
 FIM_ataque_maquina1: 
 	j GAME_LOOP
 BAIXOBAB:
@@ -1116,8 +1121,8 @@ EFECT_ataque_maquina2:	la s4,NUM_ataque_maquina
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_maquina		
 			li s6,0			
-			li a2,80		
-			li a3,112
+			li a2,127		
+			li a3,500
 LOOP_ataque_maquina2:	beq s6,s5, FIM_ataque_maquina2
 			lw a0,0(s4)		
 			lw a1,4(s4)		
@@ -1127,7 +1132,8 @@ LOOP_ataque_maquina2:	beq s6,s5, FIM_ataque_maquina2
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_maquina2		
 FIM_ataque_maquina2:	
 	j GAME_LOOP
 LEFTBAB:
@@ -1314,8 +1320,8 @@ EFECT_ataque_maquina3:	la s4,NUM_ataque_maquina
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_maquina		
 			li s6,0			
-			li a2,80		
-			li a3,112
+			li a2,127		
+			li a3,500
 LOOP_ataque_maquina3:	beq s6,s5, FIM_ataque_maquina3
 			lw a0,0(s4)		
 			lw a1,4(s4)		
@@ -1325,7 +1331,8 @@ LOOP_ataque_maquina3:	beq s6,s5, FIM_ataque_maquina3
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_maquina3		
 FIM_ataque_maquina3:	
  	j GAME_LOOP
 RIGHTBAB:
@@ -1510,8 +1517,8 @@ EFECT_ataque_maquina4:	la s4,NUM_ataque_maquina
 			lw s5,0(s4)		
 			la s4,NOTAS_ataque_maquina		
 			li s6,0			
-			li a2,80		
-			li a3,112
+			li a2,127		
+			li a3,500
 LOOP_ataque_maquina4:	beq s6,s5, FIM_ataque_maquina4
 			lw a0,0(s4)		
 			lw a1,4(s4)		
@@ -1521,6 +1528,7 @@ LOOP_ataque_maquina4:	beq s6,s5, FIM_ataque_maquina4
 			li a7,32		
 			ecall			
 			addi s4,s4,8		
-			addi s6,s6,1		
+			addi s6,s6,1
+			j LOOP_ataque_maquina4		
 FIM_ataque_maquina4:	
 	j GAME_LOOP		

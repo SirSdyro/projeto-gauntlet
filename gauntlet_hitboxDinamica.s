@@ -9,13 +9,17 @@
 
 #tela instruções de gameplay
 .include "imagens/instrucoes_menu.data"
-.include "imagens/instrucoes2_menu.data"
+.include "imagens/instrucoes_menu2.data"
 
 #tela game over
 .include "imagens/telagameover.data"
 #menu:
 .include "imagens/menu10.data"
 .include "imagens/selecao_personagens.data"
+.include "imagens/sobe_selecao1.data"
+.include "imagens/sobe_selecao2.data"
+.include "imagens/sobe_selecao3.data"
+.include "imagens/sobe_selecao4.data"
 
 #monitor_chiado
 .include "imagens/monitorchiado1.data"
@@ -163,13 +167,13 @@ LEVEL:		.word 1
 
 #EFEITOS SONOROS
 NUM_sair_menu: .word 6
-NOTAS_sair_menu: 74,100,74,100,71,100,67,100,64,100,60,1700
+NOTAS_sair_menu: 74,100,74,100,71,100,67,100,64,100,60,1500
 
-NUM_controles:.word 3
+NUM_controles: .word 3
 NOTAS_controles: 71,130,71,130,74,350
 
-NUM_select: .word 6
-NOTAS_select: 60,200,60,200,64,200,67,200,71,200,74,1100
+NUM_select: .word 3
+NOTAS_select: 71,130,71,130,74,350 
 
 NUM_game_over: .word 6
 NOTAS_game_over: 74,200,74,200,71,200,67,200,64,200,60,2000
@@ -188,6 +192,18 @@ NOTAS_pegar_pendrive: 90,100,90,100
 
 NUM_pegar_chave: .word 3
 NOTAS_pegar_chave: 71,100,80,130
+
+NUM_continuar_instrucoes: .word 6
+NOTAS_continuar_instrucoes: 60,200,60,200,64,200,67,200,71,200,74,1100
+
+NUM_volta_menu:.word 2
+NOTAS_volta_menu: 74,120,71,250
+
+NUM_avanca_menu:.word 3
+NOTAS_avanca_menu: 71,130,74,350
+
+NUM_entra_instrucoes: .word 3
+NOTAS_entra_instrucoes: 72,150,75,150,80,800
 
 .text
 #OBSERVAÇÕES:
@@ -371,8 +387,7 @@ UPLIFE:
 	la a0,tile1
 	li a3,1
 	call print			# imprime o sprite
-	j EFC_EFECT_pegar_hd
-continue_pegar_hd:	
+	j EFC_EFECT_pegar_hd	
 ##########	
 UPSCORE:
 	la t0,SCORE			# Carregando o valor do tempo atual
@@ -406,7 +421,8 @@ UPSCORE:
 	li a3,1
 	call print			# imprime o sprite
 	call EFECT_pegar_pendrive
-continue_pegar_pendrive:		
+continue_pegar_pendrive:
+continue_pegar_hd:		
 ######	
 	j GAME_LOOP	
 

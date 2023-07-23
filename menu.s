@@ -98,6 +98,24 @@ LOOP_CONTROLES: 	lw t0,0(t1)			# Le bit de Controle Teclado
   			
   			j LOOP_CONTROLES
 sair_controles:
+			la s4,NUM_volta_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_volta_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_volta_menu:	beq s6,s5, EFC_FIM_volta_menu
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_volta_menu				
+EFC_FIM_volta_menu:
 	la a0, controles2
 	li a1,0				
 	li a2,0				
@@ -145,7 +163,25 @@ sair1:
 		
 ########## 	
 sair_select:
-	la a0, controles2
+			la s4,NUM_volta_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_volta_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_volta_menu1:	beq s6,s5, EFC_FIM_volta_menu1
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_volta_menu1				
+EFC_FIM_volta_menu1:
+	la a0, sobe_selecao1
 	li a1,0				
 	li a2,0				
 	li a3,0				
@@ -155,7 +191,7 @@ sair_select:
 	li a7,32
 	li a0,150
 	ecall
-	la a0, controles3
+	la a0, sobe_selecao2
 	li a1,0				
 	li a2,0				
 	li a3,0				
@@ -165,7 +201,7 @@ sair_select:
 	li a7,32
 	li a0,150
 	ecall
-	la a0, controles4
+	la a0, sobe_selecao3
 	li a1,0				
 	li a2,0				
 	li a3,0				
@@ -175,7 +211,7 @@ sair_select:
 	li a7,32
 	li a0,150
 	ecall
-	la a0, controles5
+	la a0, sobe_selecao4
 	li a1,0				
 	li a2,0				
 	li a3,0				
@@ -235,7 +271,8 @@ SELECT:
 	li a7,32
 	li a0,150
 	ecall
-cnt_selec_personagem:
+
+cnt_selec:
 	la a0, selecao_personagens
 	li a1,0				
 	li a2,0				
@@ -243,7 +280,6 @@ cnt_selec_personagem:
 	call print			
 	li a3,1				
 	call print
-	
 	call KEY1_2
 	
 KEY1_2: 	
@@ -269,11 +305,70 @@ LOOP_2: lw t0,0(t1)			# Le bit de Controle Teclado
   	li t0,'4'
   	beq t2,t0,descricao_alan
   	  	
- 	ret				# retorna
-
+ 	j KEY1_2
+ 	
+cnt_selec_personagem:	
+			la s4,NUM_volta_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_volta_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_cnt_selec:	beq s6,s5, EFC_FIM_cnt_selec
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1
+			j EFC_LOOP_cnt_selec	
+EFC_FIM_cnt_selec:	la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+			j cnt_selec
+			
 ##========= tela descrições =========#
 #========== LAMAR
-descricao_lamar:li s7,1
+descricao_lamar:	
+			la s4,NUM_avanca_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_avanca_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_avanca_menu1:	beq s6,s5, EFC_FIM_avanca_menu1
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_avanca_menu1				
+EFC_FIM_avanca_menu1:
+			la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+		li s7,1
 		la a0, lamar_descricao
 		li a1,0				
 		li a2,0				
@@ -297,7 +392,36 @@ loop_LAMAR:	lw t0,0(t1)			# Le bit de Controle Teclado
   		
   		j loop_selec_LAMAR
 #========== ADA
-descricao_ada:	li s7,2
+descricao_ada:		
+			la s4,NUM_avanca_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_avanca_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_avanca_menu2:	beq s6,s5, EFC_FIM_avanca_menu2
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_avanca_menu2			
+EFC_FIM_avanca_menu2:
+			la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+		li s7,2
 		la a0, ada_descricao
 		li a1,0				
 		li a2,0				
@@ -322,7 +446,36 @@ loop_ADA:	lw t0,0(t1)			# Le bit de Controle Teclado
   		j loop_selec_ADA
 
 #========== BABBAGE
-descricao_babbage: li s7,3
+descricao_babbage: 
+			la s4,NUM_avanca_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_avanca_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_avanca_menu3:	beq s6,s5, EFC_FIM_avanca_menu3
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_avanca_menu3			
+EFC_FIM_avanca_menu3:
+			la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+		li s7,3
 		la a0, babbage_descricao
 		li a1,0				
 		li a2,0				
@@ -347,7 +500,36 @@ loop_BABBAGE:	lw t0,0(t1)			# Le bit de Controle Teclado
   		j loop_selec_BABBAGE
 
 #========== BABBAGE
-descricao_alan: li s7,4
+descricao_alan: 
+			la s4,NUM_avanca_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_avanca_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_avanca_menu4:	beq s6,s5, EFC_FIM_avanca_menu4
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_avanca_menu4		
+EFC_FIM_avanca_menu4:
+			la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+		li s7,4
 		la a0, turing_descricao
 		li a1,0				
 		li a2,0				
@@ -373,13 +555,45 @@ loop_ALAN:	lw t0,0(t1)			# Le bit de Controle Teclado
   
 # Os processos seguintes alteram o valor CHAR_SELECT para definir qual personagem deve ter seus sprites printados
 instrucoes_gameplay:
-	 	la a0, instrucoes_menu
+			la s4,NUM_entra_instrucoes
+			lw s5,0(s4)		
+			la s4,NOTAS_entra_instrucoes
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_instrucoes_gameplay:	
+			beq s6,s5, EFC_FIM_instrucoes_gameplay
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_instrucoes_gameplay				
+EFC_FIM_instrucoes_gameplay:
+			la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+	 	la a0,instrucoes_menu
 		li a1,0				
 		li a2,0				
 		li a3,0				
 		call print			
 		li a3,1				
 		call print
+		li a7,32
+		li a0,100
+		ecall
 loop_INSTRUCOES: 	
 		li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
 loop_instrucoes:	
@@ -390,12 +604,40 @@ loop_instrucoes:
   		sw t2,12(t1)  			# escreve a tecla pressionada no display
   	
   		li t0,'1'
-  		beq t2,t0,instrucoes_gameplay_2
+  		beq t2,t0,efc_instrucoes2
   		
-  		j loop_instrucoes 
-#vai para o CHAR de acordo com o valor em s7
-instrucoes_gameplay_2:
-	 	la a0, instrucoes2_menu
+  		j loop_instrucoes
+  		
+efc_instrucoes2:	la s4,NUM_avanca_menu
+			lw s5,0(s4)		
+			la s4,NOTAS_avanca_menu
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_avanca_menu5:	beq s6,s5, EFC_FIM_avanca_menu5
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_avanca_menu5	
+EFC_FIM_avanca_menu5:
+instrucoes2:	
+			la a0, monitorchiado5
+			li a1,0				
+			li a2,0				
+			li a3,0				
+			call print			
+			li a3,1				
+			call print
+			li a7,32
+			li a0,400
+			ecall
+	 	la a0,instrucoes_menu2
 		li a1,0				
 		li a2,0				
 		li a3,0				
@@ -414,9 +656,11 @@ loop_instrucoes2:
   		li t0,'1'
   		beq t2,t0,cnt_instrucoes
   		
-  		j loop_instrucoes2 
+  		j loop_instrucoes
 #vai para o CHAR de acordo com o valor em s7
-cnt_instrucoes:
+cnt_instrucoes:	
+		j EFC_EFECT_continuar
+		continue_continuar:
 		li t0,1
 		beq t0,s7,CHAR_1
 		li t0,2
@@ -446,3 +690,4 @@ CHAR_4:
 	la t1,CHAR_SELECT
 	sw t0,0(t1)
 	j SETUP	
+

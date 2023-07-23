@@ -44,7 +44,7 @@ EFC_EFECT_select:	la s4,NUM_select
 			lw s5,0(s4)		
 			la s4,NOTAS_select		
 			li s6,0			
-			li a2,97		
+			li a2,86		
 			li a3,112
 EFC_LOOP_select:	beq s6,s5, EFC_FIM_select
 			lw a0,0(s4)		
@@ -119,6 +119,26 @@ EFC_LOOP_pegar_hd:	beq s6,s5, EFC_FIM_pegar_hd
 			j EFC_LOOP_pegar_hd				
 EFC_FIM_pegar_hd:	j continue_pegar_hd
 
+#====== Efeito continuar da seleção de personagem =====#
+EFC_EFECT_continuar:	la s4,NUM_continuar_instrucoes
+			lw s5,0(s4)		
+			la s4,NOTAS_continuar_instrucoes
+			li s6,0			
+			li a2,86		
+			li a3,112
+EFC_LOOP_continuar:	beq s6,s5, EFC_FIM_continuar
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_continuar				
+EFC_FIM_continuar:	j continue_continuar
+
 #===== Efeito pegar chave =====#
 EFECT_pegar_chave: 	la s4,NUM_pegar_chave
 			lw s5,0(s4)		
@@ -186,8 +206,8 @@ EFC_FIM_game_over:	la a0, telagameover
 			lw t1,0(t0)
 			li a7,101			# Printa o numero do SCORE na tela
 			mv a0,t1
-			li a1,248
-			li a2,76
+			li a1,120
+			li a2,115
 			li a3,0xFF
 			ecall
 lp_game_over:		li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
