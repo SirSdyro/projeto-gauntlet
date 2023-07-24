@@ -88,8 +88,8 @@ ENEMY_CLEAN_DANO:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x0737
 	ecall
 	
 	la t0,ENEMY_3_PROJ

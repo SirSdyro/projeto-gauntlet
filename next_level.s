@@ -80,7 +80,7 @@ nxt_level_char:
 	mv a0,t1
 	li a1,248
 	li a2,96
-	li a3,0xff
+	li a3,0x5bff
 	ecall
 #inimigos
 	beq s10,zero,mapa1_ene_1
@@ -265,5 +265,5 @@ nxt_level_ene_3:
 	la t0,ENEMY_3_DIRECT
 	li t1,1
 	sw t1,0(t0)
-		 			 		
+			 			 		
 	j SETUP

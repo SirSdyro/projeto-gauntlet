@@ -25,7 +25,7 @@ ATAQUE_LAMAR:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,96
+	li a2,157
 	li a3,0xff
 	ecall
  
@@ -479,8 +479,8 @@ ckm_aux2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0,ENEMY_1_POS
@@ -552,8 +552,8 @@ mkm_aux2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0,ENEMY_2_POS
@@ -625,8 +625,8 @@ mkm_aux2_2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0,ENEMY_2_POS_2
@@ -697,8 +697,8 @@ pkm_aux2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0,ENEMY_3_POS
@@ -744,8 +744,8 @@ ATAQUE_BAB:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,96
-	li a3,0xff
+	li a2,157
+	li a3,0x5bff
 	ecall
  
 	la t1,babbage_cima

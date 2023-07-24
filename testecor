@@ -20,10 +20,11 @@ lamar:
 .include "imagens/tile_hitbox_item2.data"
 .include "imagens/hitboxfase1.data"
 .include "imagens/tile1.data"
+.include "imagens/designfase1.data"
 
 CHAR_POS:	.half 8,8			# x, y
 .text
-	la a0, tile_hitbox_enemy2_2
+	la a0, designfase1
 	li a1,0				# x = 0
 	li a2,0				# y = 0
 	li a3,0				# frame = 0
@@ -32,8 +33,8 @@ CHAR_POS:	.half 8,8			# x, y
 
 
 li t0,0xFF000000
-li t2,0
-li t3,0
+li t2,280
+li t3,100
 li t4,320
 mul t4,t3,t4
 add t0,t0,t4

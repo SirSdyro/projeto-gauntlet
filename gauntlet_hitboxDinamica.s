@@ -45,6 +45,9 @@
 mapa_e_hitbox:
 .include "imagens/mapa1_teste.data"
 .include "imagens/hitbox_mapateste2.data"
+.include "imagens/designfase1.data"
+.include "imagens/designfase2.data"
+.include "imagens/designfase3.data"
 .include "imagens/hitboxfase1.data"
 .include "imagens/hitboxfase2.data"
 .include "imagens/hitboxfase3.data"
@@ -294,8 +297,8 @@ segundo:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x5b38
 	ecall
 	
 #tempo_ataque_inimigo:
@@ -314,8 +317,8 @@ segundo:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,96
-	li a3,0xff
+	li a2,157
+	li a3,0x5bff
 	ecall
 	j GAME_LOOP					
 ##########
@@ -365,8 +368,8 @@ UPLIFE:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x5b38
 	ecall	
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
@@ -398,8 +401,8 @@ UPSCORE:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xff
+	li a2,132
+	li a3,0x5bff
 	ecall
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
@@ -428,6 +431,18 @@ continue_pegar_hd:
 
 CHAVE:			
 	li s11,1			# Altera o valor do registrador da chave
+	
+	la t0,SCORE			# Carregando o valor do tempo atual
+	lw t1,0(t0)		
+	addi t1,t1,100			# incrementa 10 para represemtar os 100 de pontos a mais
+	sw t1,0(t0)
+	lw t1,0(t0)			# Carrega o valor do tempo para printar
+	li a7,101			# Printa o numero do tempo na tela
+	mv a0,t1
+	li a1,248
+	li a2,132
+	li a3,0x5bff
+	ecall
 ######
 #Realiza o processo de atualização de sprites de uma forma meio grosseira a fim de permitir o reuso para todos as direções de movimento	
 	la a0,tile_hitbox_char		
@@ -557,8 +572,8 @@ continue_dano1: sb t1,0(t0)			# Atualiza o tempo
 		li a7,101			# Printa o numero do tempo na tela
 		mv a0,t1
 		li a1,248
-		li a2,56
-		li a3,0x37
+		li a2,108
+		li a3,0x0737
 		ecall	
 ######
 #Printa a descarga para simbolizar o ataque bem efetuado
@@ -581,8 +596,8 @@ DANO_2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x0737
 	ecall
 	j EFC_EFECT_tomar_dano2
 continue_tomar_dano2:	

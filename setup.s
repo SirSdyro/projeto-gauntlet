@@ -6,11 +6,11 @@ setup:
 	li t0,2
 	beq s10,t0,map3
 
-map1:	la a0,hitboxfase1
+map1:	la a0,designfase1
 	j setup1
-map2:	la a0,hitboxfase2
+map2:	la a0,designfase2
 	j setup1
-map3:	la a0,hitboxfase3
+map3:	la a0,designfase3
 	j setup1
 #Printa o mapa selecionado no frame 0
 setup1:	li a1,0				# x = 0
@@ -84,8 +84,8 @@ setup3:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x5b38
 	ecall
 	
 	la t0,SCORE
@@ -93,8 +93,8 @@ setup3:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0, LEVEL
@@ -102,8 +102,8 @@ setup3:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,36
-	li a3,0xff
+	li a2,86
+	li a3,0x5bff
 	ecall
 	
 	la t0,TEMPO_COOLDOWN
@@ -111,8 +111,8 @@ setup3:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,96
-	li a3,0xff
+	li a2,157
+	li a3,0x5bff
 	ecall
 									
 #printando o inimigo e sua hitbox

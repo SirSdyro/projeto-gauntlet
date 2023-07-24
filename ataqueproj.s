@@ -22,8 +22,8 @@ ATAQUE_ADA:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,96
-	li a3,0xff
+	li a2,157
+	li a3,0x5bff
 	ecall
 
 	la t0,ATK_PROJ
@@ -434,8 +434,8 @@ ATAQUE_TURING:
 	li a7,101			# Printa o numero do level na tela
 	mv a0,t1
 	li a1,248
-	li a2,96
-	li a3,0xff
+	li a2,157
+	li a3,0x5bff
 	ecall
 
 	la t0,ATK_PROJ

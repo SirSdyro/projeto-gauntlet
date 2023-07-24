@@ -306,8 +306,8 @@ CPCTR_KILL:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0,ENEMY_1_POS
@@ -349,8 +349,8 @@ MOTO_KILL:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 		
 	la t0,ENEMY_2_POS
@@ -393,8 +393,8 @@ MOTO_KILL_2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 		
 	la t0,ENEMY_2_POS_2
@@ -431,14 +431,14 @@ PROJETOR_KILL:
 
 	la t0,SCORE
 	lw t1,0(t0)
-	addi t1,t1,200
+	addi t1,t1,150
 	sw t1,0(t0)
 	lw t1,0(t0)
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,76
-	li a3,0xFF
+	li a2,132
+	li a3,0x5bFF
 	ecall
 	
 	la t0,ENEMY_3_POS
