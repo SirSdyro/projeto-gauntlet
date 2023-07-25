@@ -172,8 +172,8 @@ ENEMY_3_DANO1:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x0737
 	ecall	
 	j mov3_aux1
 	
@@ -187,7 +187,7 @@ ENEMY_3_DANO2:
 	li a7,101			# Printa o numero do tempo na tela
 	mv a0,t1
 	li a1,248
-	li a2,56
-	li a3,0x37
+	li a2,108
+	li a3,0x0737
 	ecall	
 	j mov3_aux2		

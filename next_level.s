@@ -56,8 +56,8 @@ mapa2:
 	li t2,200
 	j nxt_level_char
 mapa3:
-	li t1,216
-	li t2,120
+	li t1,200
+	li t2,168
 	j nxt_level_char	
 	
 nxt_level_char:

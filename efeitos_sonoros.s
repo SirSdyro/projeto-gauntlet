@@ -218,9 +218,89 @@ LOOP_game_over: 	lw t0,0(t1)			# Le bit de Controle Teclado
   			sw t2,12(t1)
 			
 			li t0,'1'
-  			beq t2,t0,RESTART
+  			beq t2,t0,EFECT_restart
   			
   			li t0,'0'
-  			beq t2,t0,sair1
+  			beq t2,t0,EFECT_sair_menu
   			
   			j lp_game_over
+  			
+EFECT_restart:		la s4,NUM_restart
+			lw s5,0(s4)		
+			la s4,NOTAS_restart
+			li s6,0			
+			li a2,86		
+			li a3,112
+LOOP_restart: 		beq s6,s5, FIM_restart
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j LOOP_restart				
+FIM_restart:		j RESTART
+
+ 
+#====== Dano DANO_ENEMY_2 moto
+EFC_EFECT_DANO_ENEMY_2: la s4,NUM_dano_moto
+			lw s5,0(s4)		
+			la s4,NOTAS_dano_moto
+			li s6,0			
+			li a2,80		
+			li a3,112
+EFC_LOOP_DANO_ENEMY_2:	beq s6,s5, EFC_FIM_DANO_ENEMY_2
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_DANO_ENEMY_2				
+EFC_FIM_DANO_ENEMY_2:	j continue_DANO_ENEMY_2
+
+#====== Dano DANO_ENEMY_2_2 moto
+EFC_EFECT_DANO_ENEMY_2_2:	la s4,NUM_dano_moto
+				lw s5,0(s4)		
+				la s4,NOTAS_dano_moto
+				li s6,0			
+				li a2,80		
+				li a3,112
+EFC_LOOP_DANO_ENEMY_2_2:	beq s6,s5, EFC_FIM_DANO_ENEMY_2_2
+				lw a0,0(s4)		
+				lw a1,4(s4)		
+				li a7,31		
+				ecall			
+				mv a0,a1		
+				li a7,32		
+				ecall			
+				addi s4,s4,8		
+				addi s6,s6,1		
+				j EFC_LOOP_DANO_ENEMY_2_2			
+EFC_FIM_DANO_ENEMY_2_2:		j continue_DANO_ENEMY_2_2
+
+#====== Dano projetor
+EFC_EFECT_dano_projetor:la s4,NUM_dano_projetor
+			lw s5,0(s4)		
+			la s4,NOTAS_dano_projetor
+			li s6,0			
+			li a2,80		
+			li a3,112
+EFC_LOOP_dano_projetor:	beq s6,s5, EFC_FIM_dano_projetor
+			lw a0,0(s4)		
+			lw a1,4(s4)		
+			li a7,31		
+			ecall			
+			mv a0,a1		
+			li a7,32		
+			ecall			
+			addi s4,s4,8		
+			addi s6,s6,1		
+			j EFC_LOOP_dano_projetor				
+EFC_FIM_dano_projetor:	j continue_dano_projetor

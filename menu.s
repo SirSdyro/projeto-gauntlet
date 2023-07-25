@@ -1,17 +1,118 @@
 menu:
-	la a0, menu10			# Carrega o endereço do menu para printá-lo apenas no frame 0
-	li a1,0				# x = 0
-	li a2,0				# y = 0
-	li a3,0				# frame = 0
-	call print			# imprime o sprite
+		la a0, menu1			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu2			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu3		
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu4			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu5			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu6			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu7			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu8			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu9			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		la a0, menu10			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,200
+		ecall
+		la a0, menu102			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print
+		li a7,32
+		li a0,400
+		ecall
+menu_volta: 	la a0, menu11			
+		li a1,0				
+		li a2,0				
+		li a3,0				
+		call print	# imprime o sprite
 	
-	call KEY1
+EFECT_menu_principal:		la s4,NUM_menu_principal
+				lw s5,0(s4)		
+				la s4,NOTAS_menu_principal		
+				li s6,0			
+				li a2,86		
+				li a3,112
+EFC_LOOP_menu_principal:	beq s6,s5, EFECT_menu_principal
+				lw a0,0(s4)		
+				lw a1,4(s4)
+				li a7,31		
+				ecall			
+				mv a0,a1		
+				li a7,32		
+				ecall			
+				addi s4,s4,8		
+				addi s6,s6,1
 	
 KEY1: 	
 	li t1,0xFF200000		# carrega o endereço de controle do KDMMIO
 LOOP: 	lw t0,0(t1)			# Le bit de Controle Teclado
    	andi t0,t0,0x0001		# mascara o bit menos significativo
-   	beq t0,zero,LOOP		# não tem tecla pressionada então volta ao loop
    	lw t2,4(t1)			# le o valor da tecla
   	sw t2,12(t1)  			# escreve a tecla pressionada no display
   	
@@ -23,7 +124,8 @@ LOOP: 	lw t0,0(t1)			# Le bit de Controle Teclado
   	
   	li t0,'3'
   	beq t2,t0,EFECT_sair_menu
-  	j KEY1
+  	
+  	j EFC_LOOP_menu_principal
 
 
 CONTROLES:
@@ -156,7 +258,8 @@ EFC_FIM_volta_menu:
 	li a7,32
 	li a0,200
 	ecall
-	j MENU     
+	j menu_volta
+     
 sair1: 	
 	li a7,10
 	ecall
@@ -221,7 +324,7 @@ EFC_FIM_volta_menu1:
 	li a7,32
 	li a0,150
 	ecall
-	j MENU	
+	j menu_volta	
 SELECT:
 	la a0, monitorchiado1		# Carrega o endereço do menu de seleção de personagem para printar apenas no frame 0
 	li a1,0				# x = 0
@@ -689,5 +792,5 @@ CHAR_4:
 	li t0,'4'
 	la t1,CHAR_SELECT
 	sw t0,0(t1)
-	j SETUP	
+	j SETUP		
 

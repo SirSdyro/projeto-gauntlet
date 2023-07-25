@@ -81,6 +81,8 @@ ENEMY_CLEAN_DANO:
 	la t0,TEMPO			# Carrega o valor do tempo atual
 	lb t1,0(t0)
 	addi t1,t1,-10			# Decrementa 10 de dano
+	j EFC_EFECT_dano_projetor
+	continue_dano_projetor:
 	sb t1,0(t0)			# Atualiza o valor do tempo
 	
 	la t0,TEMPO

@@ -26,7 +26,7 @@ ATAQUE_LAMAR:
 	mv a0,t1
 	li a1,248
 	li a2,157
-	li a3,0xff
+	li a3,0x5bff
 	ecall
  
 	la t1,lamar_cima

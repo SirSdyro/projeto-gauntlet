@@ -325,6 +325,8 @@ DANO_ENEMY_2_2:
 	la t0,TEMPO			# Carrega o valor do tempo atual
 	lb t1,0(t0)
 	addi t1,t1,-10			# Decrementa 10 de dano
+	j EFC_EFECT_DANO_ENEMY_2_2
+	continue_DANO_ENEMY_2_2:
 	sb t1,0(t0)			# Atualiza o tempo
 	
 	la t0,TEMPO
