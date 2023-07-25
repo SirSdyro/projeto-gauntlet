@@ -1,0 +1,6 @@
+Arraste o arquivo "CyberpunkOutlet0x81D.s" para o FPGrars.
+Movimentação - W,A,S,D
+Ataque - 'Espaço'
+O objetivo é atingir o maior número de pontos possível.
+O resto das instruções estão dentro do menu do jogo.
+Pode ser que haja alguns bugs :)
